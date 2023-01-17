@@ -1,5 +1,7 @@
 const express = require("express");
 import dbConnect from "./config/dbConnect";
+import authRoutes from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
 const cors = require("cors");
 require("dotenv").config();
 
@@ -15,6 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 dbConnect();
+
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 
