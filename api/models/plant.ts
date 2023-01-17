@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IPlant } from "../config/interface";
 
 const PlantSchema = new mongoose.Schema({
   name: { type: String, require: true },
@@ -8,6 +9,6 @@ const PlantSchema = new mongoose.Schema({
   picture: { type: String, require: true },
 });
 
-const Plant = mongoose.model("Plant", PlantSchema);
+const Plant = mongoose.model<IPlant>("Plant", PlantSchema);
 
-export = { Plant };
+export { Plant };
