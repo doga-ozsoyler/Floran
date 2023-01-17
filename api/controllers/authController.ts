@@ -20,6 +20,7 @@ export const signupController: RequestHandler = async (
       password: passwordHash,
       plants: [],
       reminders: [],
+      addedPlants: [],
     });
 
     res.json({ success: true, message: "Signup Success!", user });

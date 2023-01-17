@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, require: true },
   plants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Plant" }],
   reminders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reminder" }],
+  addedPlants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Plant" }],
 });
 
 const User = mongoose.model("User", UserSchema);
