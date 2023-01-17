@@ -9,18 +9,33 @@ export const getUserController: RequestHandler = async (
   try {
     if (!req.user)
       return res.json({ success: false, message: "Invalid Authentication" });
-    const { _id } = req.user;
-    console.log("here");
-    console.log(_id);
-    const user = await User.findById(_id).select("-password");
 
-    console.log(user);
+    const user = await User.findById(req.user._id).select("-password");
 
     res.json({
       success: true,
       message: "User is successfully returned!",
       user,
     });
+  } catch (error) {
+    res.json({ success: false, error });
+  }
+};
+
+export const updateUserController: RequestHandler = async (
+  req: IReqAuth,
+  res: Response
+) => {
+  try {
+    if (!req.user)
+      return res.json({ success: false, message: "Invalid Authentication" });
+
+    await User.findByIdAndUpdate(req.user._id, {
+      nickname: req?.body?.nickname,
+      email: req?.body?.email,
+    });
+
+    res.json({ success: true, message: "User is successfully updated!" });
   } catch (error) {
     res.json({ success: false, error });
   }
