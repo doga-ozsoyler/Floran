@@ -2,6 +2,7 @@ const express = require("express");
 import dbConnect from "./config/dbConnect";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
+import plantRoutes from "./routes/plantRoutes";
 const cors = require("cors");
 require("dotenv").config();
 
@@ -20,6 +21,7 @@ dbConnect();
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/plant", plantRoutes);
 
 const PORT = process.env.PORT || 3000;
 
