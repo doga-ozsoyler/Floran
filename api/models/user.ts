@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IUser } from "../config/interface";
 
 const UserSchema = new mongoose.Schema({
   nickname: { type: String, require: true },
@@ -9,6 +10,6 @@ const UserSchema = new mongoose.Schema({
   addedPlants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Plant" }],
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model<IUser>("User", UserSchema);
 
 export { User };
