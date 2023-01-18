@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "api": "nodemon server.ts",
-    "test": "export NODE_ENV && jest"
+    "test": "export NODE_ENV=TEST && jest"
   },
   "keywords": [],
   "author": "",

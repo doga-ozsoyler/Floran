@@ -5,4 +5,5 @@ export default {
   collectCoverage: true,
   coverageReporters: ["text", "html"],
   coverageDirectory: "<rootDir>/coverage/",
+  cacheDirectory: "./tmp/",
 };

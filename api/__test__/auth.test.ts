@@ -10,6 +10,7 @@ const dummyUser = {
   email: faker.internet.email(),
   password: faker.internet.password(),
 };
+const link = "/api/auth";
 
 describe("Auth Controllers", () => {
   beforeAll(async () => {
@@ -23,16 +24,16 @@ describe("Auth Controllers", () => {
     await testDB.closeDatabase();
   });
 
-  test("POST - /signup --> When infos are missing. Return error message", async () => {
-    const res = await request.post("/api/auth/signup").send({
+  test("POST - /auth/signup --> When infos are missing. Return error message", async () => {
+    const res = await request.post(`${link}/signup`).send({
       password: dummyUser.password,
     });
 
     expect(res.body).toEqual({ success: false, message: "Missing info!" });
   });
 
-  test("POST - /signup --> User is created successfully. Return success message", async () => {
-    const res = await request.post("/api/auth/signup").send(dummyUser);
+  test("POST - /auth/signup --> User is created successfully. Return success message", async () => {
+    const res = await request.post(`${link}/signup`).send(dummyUser);
 
     expect(res.body).toEqual(
       expect.objectContaining({
@@ -42,14 +43,14 @@ describe("Auth Controllers", () => {
     );
   });
 
-  test("POST - /signup --> When email has already existed. Return error message", async () => {
-    const res = await request.post("/api/auth/signup").send(dummyUser);
+  test("POST - /auth/signup --> When email has already existed. Return error message", async () => {
+    const res = await request.post(`${link}/signup`).send(dummyUser);
 
     expect(res.body).toEqual({ success: false, message: "User already exist" });
   });
 
-  test("POST - /signin --> When user doesn't exist. Return error message", async () => {
-    const res = await request.post("/api/auth/signin").send({
+  test("POST - /auth/signin --> When user doesn't exist. Return error message", async () => {
+    const res = await request.post(`${link}/signin`).send({
       email: faker.internet.email(),
       password: faker.internet.password(),
     });
@@ -57,8 +58,8 @@ describe("Auth Controllers", () => {
     expect(res.body).toEqual({ success: false, message: "User doesn't exist" });
   });
 
-  test("POST - /signin --> When password isn't correct. Return error message", async () => {
-    const res = await request.post("/api/auth/signin").send({
+  test("POST - /auth/signin --> When password isn't correct. Return error message", async () => {
+    const res = await request.post(`${link}/signin`).send({
       email: dummyUser.email,
       password: "incorrect password",
     });
@@ -69,8 +70,8 @@ describe("Auth Controllers", () => {
     });
   });
 
-  test("POST - /signin --> When signing is happend successfully. Return success message", async () => {
-    const res = await request.post("/api/auth/signin").send({
+  test("POST - /auth/signin --> When signing is happend successfully. Return success message", async () => {
+    const res = await request.post(`${link}/signin`).send({
       email: dummyUser.email,
       password: dummyUser.password,
     });
