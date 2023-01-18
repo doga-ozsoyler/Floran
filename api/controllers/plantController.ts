@@ -63,3 +63,35 @@ export const updatePlantController: RequestHandler = async (
     res.json({ success: false, error });
   }
 };
+
+export const deletePlantController: RequestHandler = async (
+  req: IReqAuth,
+  res: Response
+) => {
+  try {
+    const { plantID } = req?.params;
+
+    if (!req.user)
+      return res.json({ success: false, message: "Invalid Authentication" });
+
+    const user = await User.find({
+      _id: req.user._id,
+      addedPlants: plantID,
+    });
+
+    if (!user.length)
+      return res.json({
+        success: false,
+        message: "Plant doesn't belong the user!",
+      });
+
+    await Plant.findByIdAndDelete(plantID);
+    await User.findByIdAndUpdate(req.user._id, {
+      $pull: { addedPlants: plantID },
+    });
+
+    res.json({ success: true, message: "Plant is successfully deleted!" });
+  } catch (error) {
+    res.json({ success: false, error });
+  }
+};
