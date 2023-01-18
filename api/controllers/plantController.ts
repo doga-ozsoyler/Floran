@@ -24,7 +24,11 @@ export const postPlantController: RequestHandler = async (
       $push: { addedPlants: plant._id },
     });
 
-    res.json({ success: true, plant });
+    res.json({
+      success: true,
+      message: "Plant is successfully created!",
+      plant,
+    });
   } catch (error) {
     res.json({ success: false, error });
   }
