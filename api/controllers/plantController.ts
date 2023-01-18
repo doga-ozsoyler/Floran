@@ -2,6 +2,7 @@ import { RequestHandler, Response } from "express";
 import { IReqAuth } from "../config/interface";
 import { User } from "../models/user";
 import { Plant } from "../models/plant";
+import { ObjectId } from "mongoose";
 
 export const postPlantController: RequestHandler = async (
   req: IReqAuth,
@@ -23,10 +24,21 @@ export const postPlantController: RequestHandler = async (
       $push: { addedPlants: plant._id },
     });
 
-    res.json({ success: false, plant });
+    res.json({ success: true, plant });
   } catch (error) {
     res.json({ success: false, error });
   }
+};
+
+const isPlantBelongUser = async (userID: ObjectId, plantID: string) => {
+  const user = await User.find({
+    _id: userID,
+    addedPlants: plantID,
+  });
+
+  if (!user.length) return false;
+
+  return true;
 };
 
 export const updatePlantController: RequestHandler = async (
@@ -39,12 +51,7 @@ export const updatePlantController: RequestHandler = async (
     if (!req.user)
       return res.json({ success: false, message: "Invalid Authentication" });
 
-    const user = await User.find({
-      _id: req.user._id,
-      addedPlants: plantID,
-    });
-
-    if (!user.length)
+    if (!(await isPlantBelongUser(req.user._id, plantID)))
       return res.json({
         success: false,
         message: "Plant doesn't belong the user!",
@@ -74,12 +81,7 @@ export const deletePlantController: RequestHandler = async (
     if (!req.user)
       return res.json({ success: false, message: "Invalid Authentication" });
 
-    const user = await User.find({
-      _id: req.user._id,
-      addedPlants: plantID,
-    });
-
-    if (!user.length)
+    if (!(await isPlantBelongUser(req.user._id, plantID)))
       return res.json({
         success: false,
         message: "Plant doesn't belong the user!",
