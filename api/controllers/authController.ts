@@ -10,7 +10,7 @@ export const signupController: RequestHandler = async (
   try {
     const { nickname, email, password } = req?.body;
 
-    if (nickname || email || password)
+    if (!nickname || !email || !password)
       return res.json({ success: false, message: "Missing info!" });
 
     const isEmailExist = await User.findOne({ email: email });

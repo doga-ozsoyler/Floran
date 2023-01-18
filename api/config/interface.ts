@@ -19,3 +19,11 @@ export interface IUser extends Document {
 export interface IReqAuth extends Request {
   user?: IUser;
 }
+
+export interface IPlant extends Document {
+  name: string;
+  petFriendly: boolean;
+  sunExposure: number;
+  fertilizer: number;
+  picture: string;
+}
