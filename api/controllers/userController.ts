@@ -1,4 +1,4 @@
-import { RequestHandler, Request, Response } from "express";
+import { RequestHandler, Response } from "express";
 import { IReqAuth } from "../config/interface";
 import { User } from "../models/user";
 import bcrypt from "bcrypt";

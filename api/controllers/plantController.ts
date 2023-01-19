@@ -1,4 +1,4 @@
-import { RequestHandler, Response } from "express";
+import { RequestHandler, Request, Response } from "express";
 import { IReqAuth } from "../config/interface";
 import { User } from "../models/user";
 import { Plant } from "../models/plant";
@@ -24,7 +24,11 @@ export const postPlantController: RequestHandler = async (
       $push: { addedPlants: plant._id },
     });
 
-    res.json({ success: true, plant });
+    res.json({
+      success: true,
+      message: "Plant is successfully created!",
+      plant,
+    });
   } catch (error) {
     res.json({ success: false, error });
   }
@@ -93,6 +97,25 @@ export const deletePlantController: RequestHandler = async (
     });
 
     res.json({ success: true, message: "Plant is successfully deleted!" });
+  } catch (error) {
+    res.json({ success: false, error });
+  }
+};
+
+export const getPlantController: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { plantID } = req?.params;
+
+    const plant = await Plant.findById(plantID);
+
+    res.json({
+      success: false,
+      message: "Plant is successfully",
+      plant,
+    });
   } catch (error) {
     res.json({ success: false, error });
   }

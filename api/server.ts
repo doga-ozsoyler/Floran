@@ -17,12 +17,17 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-dbConnect();
+if (process.env.NODE_ENV !== "TEST") {
+  dbConnect();
+}
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/plant", plantRoutes);
 
-const PORT = process.env.PORT || 3000;
+if (process.env.NODE_ENV !== "TEST") {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, console.log(`Server running at PORT ${PORT}`));
+}
 
-app.listen(PORT, console.log(`Server running at PORT ${PORT}`));
+export default app;
