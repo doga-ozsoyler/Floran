@@ -13,11 +13,11 @@ const dummyUser = {
   reminders: [],
   addedPlants: [],
 };
-const link = "/api/user";
 
-describe("User Controllers", () => {
+describe("GET - /user/get", () => {
   let testToken: any;
   let testUser: { password?: string };
+  const link = "/api/user/get";
   beforeAll(async () => {
     await testDB.connect();
     const signupRes = await request.post(`/api/auth/signup`).send({
@@ -42,8 +42,8 @@ describe("User Controllers", () => {
     await testDB.closeDatabase();
   });
 
-  test("GET - /user/get --> When authentication isn't exist. Return error message", async () => {
-    const res = await request.get(`${link}/get`);
+  test("When authentication isn't exist. Return error message", async () => {
+    const res = await request.get(link);
 
     expect(res.body).toEqual({
       success: false,
@@ -51,10 +51,8 @@ describe("User Controllers", () => {
     });
   });
 
-  test("GET - /user/get --> When authentication is currect. Return success message and user info", async () => {
-    const res = await request
-      .get(`${link}/get`)
-      .set("authorization", testToken);
+  test("When authentication is currect. Return success message and user info", async () => {
+    const res = await request.get(link).set("authorization", testToken);
 
     expect(res.body).toEqual({
       success: true,
@@ -62,10 +60,39 @@ describe("User Controllers", () => {
       user: testUser,
     });
   });
+});
 
-  test("PUT - /user/update/info --> When authentication isn't exist. Return error message", async () => {
+describe("PUT - /user/update/info", () => {
+  let testToken: any;
+  let testUser: { password?: string };
+  const link = "/api/user/update/info";
+  beforeAll(async () => {
+    await testDB.connect();
+    const signupRes = await request.post(`/api/auth/signup`).send({
+      nickname: dummyUser.nickname,
+      email: dummyUser.email,
+      password: dummyUser.password,
+    });
+
+    testUser = signupRes.body.user;
+    if (testUser) delete testUser["password"];
+
+    const signinRes = await request.post(`/api/auth/signin`).send({
+      email: dummyUser.email,
+      password: dummyUser.password,
+    });
+
+    testToken = signinRes.body.token;
+  });
+
+  afterAll(async () => {
+    await testDB.clearDatabase();
+    await testDB.closeDatabase();
+  });
+
+  test("When authentication isn't exist. Return error message", async () => {
     const res = await request
-      .put(`${link}/update/info`)
+      .put(link)
       .send({ nickname: faker.internet.userName() });
 
     expect(res.body).toEqual({
@@ -74,9 +101,9 @@ describe("User Controllers", () => {
     });
   });
 
-  test("PUT - /user/update/info --> When user is successfully updated. Return success message", async () => {
+  test("When user is successfully updated. Return success message", async () => {
     const res = await request
-      .put(`${link}/update/info`)
+      .put(link)
       .set("authorization", testToken)
       .send({ nickname: faker.internet.userName() });
 
@@ -87,9 +114,38 @@ describe("User Controllers", () => {
       })
     );
   });
+});
 
-  test("PUT - /user/update/password --> When authentication isn't exist. Return error message", async () => {
-    const res = await request.put(`${link}/update/password`).send({
+describe("PUT - /user/update/password", () => {
+  let testToken: any;
+  let testUser: { password?: string };
+  const link = "/api/user/update/password";
+  beforeAll(async () => {
+    await testDB.connect();
+    const signupRes = await request.post(`/api/auth/signup`).send({
+      nickname: dummyUser.nickname,
+      email: dummyUser.email,
+      password: dummyUser.password,
+    });
+
+    testUser = signupRes.body.user;
+    if (testUser) delete testUser["password"];
+
+    const signinRes = await request.post(`/api/auth/signin`).send({
+      email: dummyUser.email,
+      password: dummyUser.password,
+    });
+
+    testToken = signinRes.body.token;
+  });
+
+  afterAll(async () => {
+    await testDB.clearDatabase();
+    await testDB.closeDatabase();
+  });
+
+  test("When authentication isn't exist. Return error message", async () => {
+    const res = await request.put(link).send({
       oldPassword: dummyUser.password,
       newPassword: faker.internet.password(),
     });
@@ -100,14 +156,11 @@ describe("User Controllers", () => {
     });
   });
 
-  test("PUT - /user/update/password --> When user's password is incorrect. Return error message", async () => {
-    const res = await request
-      .put(`${link}/update/password`)
-      .set("authorization", testToken)
-      .send({
-        oldPassword: "incorrect password",
-        newPassword: faker.internet.password(),
-      });
+  test("When user's password is incorrect. Return error message", async () => {
+    const res = await request.put(link).set("authorization", testToken).send({
+      oldPassword: "incorrect password",
+      newPassword: faker.internet.password(),
+    });
 
     expect(res.body).toEqual(
       expect.objectContaining({
@@ -117,14 +170,11 @@ describe("User Controllers", () => {
     );
   });
 
-  test("PUT - /user/update/password --> When user's password is successfully updated. Return success message", async () => {
-    const res = await request
-      .put(`${link}/update/password`)
-      .set("authorization", testToken)
-      .send({
-        oldPassword: dummyUser.password,
-        newPassword: faker.internet.password(),
-      });
+  test("When user's password is successfully updated. Return success message", async () => {
+    const res = await request.put(link).set("authorization", testToken).send({
+      oldPassword: dummyUser.password,
+      newPassword: faker.internet.password(),
+    });
 
     expect(res.body).toEqual(
       expect.objectContaining({

@@ -2,10 +2,11 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 // This will create an new instance of "MongoMemoryServer" and automatically start it
-const mongod = MongoMemoryServer.create();
+let mongod: any;
 
 export const connect = async () => {
-  const uri = await (await mongod).getUri();
+  mongod = await MongoMemoryServer.create();
+  const uri = await mongod.getUri();
   try {
     mongoose.set("strictQuery", false);
     await mongoose.connect(uri);
@@ -21,7 +22,7 @@ export const closeDatabase = async () => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
   // The MongoMemoryServer can be stopped again with
-  await (await mongod).stop();
+  if (mongod) await mongod.stop();
 };
 
 export const clearDatabase = async () => {
