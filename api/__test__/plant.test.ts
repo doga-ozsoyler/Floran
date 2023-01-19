@@ -203,3 +203,60 @@ describe("DELETE - /delete/:plantID", () => {
     });
   });
 });
+
+describe("GET - /plant/:plantID", () => {
+  let testToken: any;
+  let plantID: any;
+  let link = "/api/plant/get";
+  beforeAll(async () => {
+    await testDB.connect();
+
+    await request.post("/api/auth/signup").send(dummyUser);
+
+    const signinRes = await request
+      .post("/api/auth/signin")
+      .send({ email: dummyUser.email, password: dummyUser.password });
+
+    testToken = signinRes.body.token;
+
+    const plantRes = await request
+      .post("/api/plant/new")
+      .set("authorization", testToken)
+      .send(dummyPlant);
+
+    plantID = plantRes.body.plant._id;
+  });
+
+  afterAll(async () => {
+    await testDB.clearDatabase();
+    await testDB.closeDatabase();
+  });
+
+  test("When plant doesn't exist or id isn't correct. Return error message", async () => {
+    const res = await request.get(`${link}/wrongID`);
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        success: false,
+      })
+    );
+    expect(res.body.error).toEqual(
+      expect.objectContaining({
+        message:
+          'Cast to ObjectId failed for value "wrongID" (type string) at path "_id" for model "Plant"',
+      })
+    );
+  });
+
+  test("When plant is successfully returned. Return success message and plant info", async () => {
+    const res = await request.get(`${link}/${plantID}`);
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        success: false,
+        message: "Plant is successfully",
+      })
+    );
+    expect(res.body.plant).toEqual(expect.objectContaining(dummyPlant));
+  });
+});
