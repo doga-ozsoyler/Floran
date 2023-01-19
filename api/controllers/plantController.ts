@@ -113,8 +113,25 @@ export const getPlantController: RequestHandler = async (
 
     res.json({
       success: false,
-      message: "Plant is successfully",
+      message: "Plant is successfully returned!",
       plant,
+    });
+  } catch (error) {
+    res.json({ success: false, error });
+  }
+};
+
+export const getAllPlantController: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const allPlant = await Plant.find({});
+
+    res.json({
+      success: true,
+      message: "All plants are successfully returned!",
+      allPlant,
     });
   } catch (error) {
     res.json({ success: false, error });

@@ -254,9 +254,53 @@ describe("GET - /plant/:plantID", () => {
     expect(res.body).toEqual(
       expect.objectContaining({
         success: false,
-        message: "Plant is successfully",
+        message: "Plant is successfully returned!",
       })
     );
     expect(res.body.plant).toEqual(expect.objectContaining(dummyPlant));
+  });
+});
+
+describe("GET - /plant/all", () => {
+  let firstPlant: any;
+  let secondPlant: any;
+  beforeAll(async () => {
+    await testDB.connect();
+
+    await request.post("/api/auth/signup").send(dummyUser);
+    const singinRes = await request
+      .post("/api/auth/signin")
+      .send({ email: dummyUser.email, password: dummyUser.password });
+
+    const plantRes = await request
+      .post("/api/plant/new")
+      .set("authorization", singinRes.body.token)
+      .send(dummyPlant);
+
+    firstPlant = plantRes.body.plant;
+
+    const secondPlantRes = await request
+      .post("/api/plant/new")
+      .set("authorization", singinRes.body.token)
+      .send(dummyPlant);
+    secondPlant = secondPlantRes.body.plant;
+  });
+
+  afterAll(async () => {
+    await testDB.clearDatabase();
+    await testDB.closeDatabase();
+  });
+
+  test("When all plants are successfully returned. Return success message and plants infos", async () => {
+    const res = await request.get("/api/plant/all");
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        success: true,
+        message: "All plants are successfully returned!",
+      })
+    );
+    expect(res.body.allPlant[0]).toEqual(expect.objectContaining(firstPlant));
+    expect(res.body.allPlant[1]).toEqual(expect.objectContaining(secondPlant));
   });
 });
