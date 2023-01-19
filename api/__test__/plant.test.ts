@@ -138,3 +138,68 @@ describe("PUT - /update/:plantID", () => {
     });
   });
 });
+
+describe("DELETE - /delete/:plantID", () => {
+  let testToken: any;
+  let plantTestID: any;
+  const link = "/api/plant/delete";
+  beforeAll(async () => {
+    await testDB.connect();
+
+    await request.post("/api/auth/signup").send(dummyUser);
+    const signinRes = await request
+      .post("/api/auth/signin")
+      .send({ email: dummyUser.email, password: dummyUser.password });
+
+    testToken = signinRes.body.token;
+
+    const plantRes = await request
+      .post(`/api/plant/new`)
+      .set("authorization", testToken)
+      .send(dummyPlant);
+
+    plantTestID = plantRes.body.plant._id;
+  });
+
+  afterAll(async () => {
+    await testDB.clearDatabase();
+    await testDB.closeDatabase();
+  });
+
+  test("When authentication isn't exist. Return error message", async () => {
+    const res = await request.delete(`${link}/${plantTestID}`);
+
+    expect(res.body).toEqual({
+      success: false,
+      message: "Invalid Authentication",
+    });
+  });
+
+  test("When plant doesn't belong the user. Return error message", async () => {
+    await request.post("/api/auth/signup").send(dummySecondUser);
+    const secondUser = await request.post("/api/auth/signin").send({
+      email: dummySecondUser.email,
+      password: dummySecondUser.password,
+    });
+
+    const res = await request
+      .delete(`${link}/${plantTestID}`)
+      .set("authorization", secondUser.body.token);
+
+    expect(res.body).toEqual({
+      success: false,
+      message: "Plant doesn't belong the user!",
+    });
+  });
+
+  test("When plant is successfully deleted. Return success message", async () => {
+    const res = await request
+      .delete(`${link}/${plantTestID}`)
+      .set("authorization", testToken);
+
+    expect(res.body).toEqual({
+      success: true,
+      message: "Plant is successfully deleted!",
+    });
+  });
+});
