@@ -22,11 +22,54 @@ const dummySecondUser = {
   email: faker.internet.email(),
   password: faker.internet.password(),
 };
-const link = "/api/plant";
 
-describe("Plant Controllers", () => {
+describe("POST - /plant/new", () => {
+  let testToken: any;
+  const link = "/api/plant/new";
+  beforeAll(async () => {
+    await testDB.connect();
+
+    await request.post("/api/auth/signup").send(dummyUser);
+    const signinRes = await request
+      .post("/api/auth/signin")
+      .send({ email: dummyUser.email, password: dummyUser.password });
+
+    testToken = signinRes.body.token;
+  });
+
+  afterAll(async () => {
+    await testDB.clearDatabase();
+    await testDB.closeDatabase();
+  });
+
+  test("When authentication isn't exist. Return error message", async () => {
+    const res = await request.post(link).send(dummyPlant);
+
+    expect(res.body).toEqual({
+      success: false,
+      message: "Invalid Authentication",
+    });
+  });
+
+  test("When plant is successfully created. Return success message", async () => {
+    const res = await request
+      .post(link)
+      .set("authorization", testToken)
+      .send(dummyPlant);
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        success: true,
+        message: "Plant is successfully created!",
+      })
+    );
+  });
+});
+
+describe("PUT - /update/:plantID", () => {
   let testToken: any;
   let plantTestID: any;
+  const link = "/api/plant/update";
   beforeAll(async () => {
     await testDB.connect();
 
@@ -38,7 +81,7 @@ describe("Plant Controllers", () => {
     testToken = signinRes.body.token;
 
     const plantRes = await request
-      .post(`${link}/new`)
+      .post(`/api/plant/new`)
       .set("authorization", testToken)
       .send(dummyPlant);
 
@@ -50,31 +93,8 @@ describe("Plant Controllers", () => {
     await testDB.closeDatabase();
   });
 
-  test("POST - /plant/new --> When authentication isn't exist. Return error message", async () => {
-    const res = await request.post(`${link}/new`).send(dummyPlant);
-
-    expect(res.body).toEqual({
-      success: false,
-      message: "Invalid Authentication",
-    });
-  });
-
-  test("POST - /new --> When plant is successfully created. Return success message", async () => {
-    const res = await request
-      .post(`${link}/new`)
-      .set("authorization", testToken)
-      .send(dummyPlant);
-
-    expect(res.body).toEqual(
-      expect.objectContaining({
-        success: true,
-        message: "Plant is successfully created!",
-      })
-    );
-  });
-
-  test("PUT - /update/:plantID --> When authentication isn't exist. Return error message", async () => {
-    const res = await request.put(`${link}/update/${plantTestID}`).send({
+  test("When authentication isn't exist. Return error message", async () => {
+    const res = await request.put(`${link}/${plantTestID}`).send({
       name: faker.animal.dog(),
     });
 
@@ -84,16 +104,16 @@ describe("Plant Controllers", () => {
     });
   });
 
-  test("PUT - /update/:plantID --> When plant doesn't belong the user. Return error message", async () => {
+  test("When plant doesn't belong the user. Return error message", async () => {
     await request.post("/api/auth/signup").send(dummySecondUser);
-    const newUsers = await request.post("/api/auth/signin").send({
+    const secondUser = await request.post("/api/auth/signin").send({
       email: dummySecondUser.email,
       password: dummySecondUser.password,
     });
 
     const res = await request
-      .put(`${link}/update/${plantTestID}`)
-      .set("authorization", newUsers.body.token)
+      .put(`${link}/${plantTestID}`)
+      .set("authorization", secondUser.body.token)
       .send({
         name: faker.animal.dog(),
       });
@@ -104,9 +124,9 @@ describe("Plant Controllers", () => {
     });
   });
 
-  test("PUT - /update/:plantID --> When plant is successfully updated. Return success message", async () => {
+  test("When plant is successfully updated. Return success message", async () => {
     const res = await request
-      .put(`${link}/update/${plantTestID}`)
+      .put(`${link}/${plantTestID}`)
       .set("authorization", testToken)
       .send({
         name: faker.animal.dog(),
