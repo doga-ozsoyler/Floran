@@ -57,12 +57,17 @@ describe("POST - /plant/new", () => {
       .set("authorization", testToken)
       .send(dummyPlant);
 
+    const userRes = await request
+      .get("/api/user/get")
+      .set("authorization", testToken);
+
     expect(res.body).toEqual(
       expect.objectContaining({
         success: true,
         message: "Plant is successfully created!",
       })
     );
+    expect(userRes.body.user.addedPlants).toContain(res.body.plant._id);
   });
 });
 
@@ -197,10 +202,15 @@ describe("DELETE - /delete/:plantID", () => {
       .delete(`${link}/${plantTestID}`)
       .set("authorization", testToken);
 
+    const userRes = await request
+      .get("/api/user/get")
+      .set("authorization", testToken);
+
     expect(res.body).toEqual({
       success: true,
       message: "Plant is successfully deleted!",
     });
+    expect(userRes.body.user.addedPlants).not.toContain(plantTestID);
   });
 });
 

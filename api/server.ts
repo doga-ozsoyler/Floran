@@ -3,6 +3,7 @@ import dbConnect from "./config/dbConnect";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import plantRoutes from "./routes/plantRoutes";
+import reminderRoutes from "./routes/reminderRoutes";
 const cors = require("cors");
 require("dotenv").config();
 
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV !== "TEST") {
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/plant", plantRoutes);
+app.use("/api/reminder", reminderRoutes);
 
 if (process.env.NODE_ENV !== "TEST") {
   const PORT = process.env.PORT || 3000;
