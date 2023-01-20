@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getUserController,
+  ownPlantUserController,
   updateUserController,
   updateUserPasswordController,
 } from "../controllers/userController";
@@ -11,5 +12,6 @@ const userRoutes = express.Router();
 userRoutes.get("/get", verifyToken, getUserController);
 userRoutes.put("/update/info", verifyToken, updateUserController);
 userRoutes.put("/update/password", verifyToken, updateUserPasswordController);
+userRoutes.put("/own/plants", verifyToken, ownPlantUserController);
 
 export default userRoutes;

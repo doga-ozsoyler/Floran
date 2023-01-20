@@ -71,3 +71,30 @@ export const updateUserPasswordController: RequestHandler = async (
     res.json({ success: false, error });
   }
 };
+
+export const ownPlantUserController: RequestHandler = async (
+  req: IReqAuth,
+  res: Response
+) => {
+  try {
+    if (!req.user)
+      return res.json({ success: false, message: "Invalid Authentication" });
+
+    const user = await User.findById(req.user._id);
+    if (user && !user.plants.includes(req.body.plantID)) {
+      await user.updateOne({ $push: { plants: req.body.plantID } });
+      res.json({
+        success: true,
+        message: "Plant is successfully added plants list!",
+      });
+    } else if (user) {
+      await user.updateOne({ $pull: { plants: req.body.plantID } });
+      res.json({
+        success: true,
+        message: "Plant is successfully outed plants list!",
+      });
+    }
+  } catch (error) {
+    res.json({ success: false, error });
+  }
+};
