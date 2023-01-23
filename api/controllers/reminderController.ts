@@ -1,4 +1,4 @@
-import { RequestHandler, Request, Response } from "express";
+import { RequestHandler, Response } from "express";
 import { IReqAuth } from "../config/interface";
 import { Reminder } from "../models/reminder";
 import { User } from "../models/user";
@@ -9,7 +9,9 @@ export const postReminderController: RequestHandler = async (
 ) => {
   try {
     if (!req.user)
-      return res.json({ success: false, message: "Invalid Authentication" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Authentication" });
 
     const reminder = await Reminder.create({
       plant: req.body.plant,
@@ -30,13 +32,13 @@ export const postReminderController: RequestHandler = async (
       $push: pushObject,
     });
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Reminder is successfully created!",
       reminder,
     });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -48,7 +50,9 @@ export const getReminderController: RequestHandler = async (
     const { reminderID } = req.params;
 
     if (!req.user)
-      return res.json({ success: false, message: "Invalid Authentication" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Authentication" });
 
     const user = await User.find({
       _id: req.user._id,
@@ -56,20 +60,20 @@ export const getReminderController: RequestHandler = async (
     });
 
     if (!user.length)
-      return res.json({
+      return res.status(403).json({
         success: false,
         message: "Reminder doesn't belong the user!",
       });
 
     const reminder = await Reminder.findById(reminderID);
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Reminder is successfully returned!",
       reminder,
     });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -81,7 +85,7 @@ export const updateReminderController: RequestHandler = async (
     const { reminderID } = req.params;
 
     if (!req.user)
-      return res.json({
+      return res.status(401).json({
         success: false,
         message: "Invalid Authentication",
       });
@@ -92,7 +96,7 @@ export const updateReminderController: RequestHandler = async (
     });
 
     if (!user.length)
-      return res.json({
+      return res.status(403).json({
         success: false,
         message: "Reminder doesn't belong the user!",
       });
@@ -102,12 +106,12 @@ export const updateReminderController: RequestHandler = async (
       time: req?.body?.time,
     });
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Reminder is successfully updated!",
     });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -119,7 +123,7 @@ export const deleteReminderController: RequestHandler = async (
     const { reminderID } = req.params;
 
     if (!req.user)
-      return res.json({
+      return res.status(401).json({
         success: false,
         message: "Invalid Authentication",
       });
@@ -130,7 +134,7 @@ export const deleteReminderController: RequestHandler = async (
     });
 
     if (!user.length)
-      return res.json({
+      return res.status(403).json({
         success: false,
         message: "Reminder doesn't belong the user!",
       });
@@ -140,11 +144,11 @@ export const deleteReminderController: RequestHandler = async (
       $pull: { reminders: reminderID },
     });
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Reminder is successfully deleted!",
     });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
