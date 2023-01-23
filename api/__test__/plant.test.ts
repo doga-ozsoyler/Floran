@@ -68,6 +68,7 @@ describe("POST - /plant/new", () => {
       })
     );
     expect(userRes.body.user.addedPlants).toContain(res.body.plant._id);
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -127,6 +128,7 @@ describe("PUT - /update/:plantID", () => {
       success: false,
       message: "Plant doesn't belong the user!",
     });
+    expect(res.statusCode).toBe(403);
   });
 
   test("When plant is successfully updated. Return success message", async () => {
@@ -141,6 +143,7 @@ describe("PUT - /update/:plantID", () => {
       success: true,
       message: "Plant is successfully updated!",
     });
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -195,6 +198,7 @@ describe("DELETE - /delete/:plantID", () => {
       success: false,
       message: "Plant doesn't belong the user!",
     });
+    expect(res.statusCode).toBe(403);
   });
 
   test("When plant is successfully deleted. Return success message", async () => {
@@ -211,6 +215,7 @@ describe("DELETE - /delete/:plantID", () => {
       message: "Plant is successfully deleted!",
     });
     expect(userRes.body.user.addedPlants).not.toContain(plantTestID);
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -256,6 +261,7 @@ describe("GET - /plant/:plantID", () => {
           'Cast to ObjectId failed for value "wrongID" (type string) at path "_id" for model "Plant"',
       })
     );
+    expect(res.statusCode).toBe(500);
   });
 
   test("When plant is successfully returned. Return success message and plant info", async () => {
@@ -268,6 +274,7 @@ describe("GET - /plant/:plantID", () => {
       })
     );
     expect(res.body.plant).toEqual(expect.objectContaining(dummyPlant));
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -312,5 +319,6 @@ describe("GET - /plant/all", () => {
     );
     expect(res.body.allPlant[0]).toEqual(expect.objectContaining(firstPlant));
     expect(res.body.allPlant[1]).toEqual(expect.objectContaining(secondPlant));
+    expect(res.statusCode).toBe(200);
   });
 });

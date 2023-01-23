@@ -10,7 +10,9 @@ export const postPlantController: RequestHandler = async (
 ) => {
   try {
     if (!req.user)
-      return res.json({ success: false, message: "Invalid Authentication" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Authentication" });
 
     const plant = await Plant.create({
       name: req?.body?.name,
@@ -24,13 +26,13 @@ export const postPlantController: RequestHandler = async (
       $push: { addedPlants: plant._id },
     });
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Plant is successfully created!",
       plant,
     });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -53,10 +55,12 @@ export const updatePlantController: RequestHandler = async (
     const { plantID } = req?.params;
 
     if (!req.user)
-      return res.json({ success: false, message: "Invalid Authentication" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Authentication" });
 
     if (!(await isPlantBelongUser(req.user._id, plantID)))
-      return res.json({
+      return res.status(403).json({
         success: false,
         message: "Plant doesn't belong the user!",
       });
@@ -69,9 +73,11 @@ export const updatePlantController: RequestHandler = async (
       picture: req?.body?.picture,
     });
 
-    res.json({ success: true, message: "Plant is successfully updated!" });
+    res
+      .status(200)
+      .json({ success: true, message: "Plant is successfully updated!" });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -83,10 +89,12 @@ export const deletePlantController: RequestHandler = async (
     const { plantID } = req?.params;
 
     if (!req.user)
-      return res.json({ success: false, message: "Invalid Authentication" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Authentication" });
 
     if (!(await isPlantBelongUser(req.user._id, plantID)))
-      return res.json({
+      return res.status(403).json({
         success: false,
         message: "Plant doesn't belong the user!",
       });
@@ -96,9 +104,11 @@ export const deletePlantController: RequestHandler = async (
       $pull: { addedPlants: plantID },
     });
 
-    res.json({ success: true, message: "Plant is successfully deleted!" });
+    res
+      .status(200)
+      .json({ success: true, message: "Plant is successfully deleted!" });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -111,13 +121,13 @@ export const getPlantController: RequestHandler = async (
 
     const plant = await Plant.findById(plantID);
 
-    res.json({
+    res.status(200).json({
       success: false,
       message: "Plant is successfully returned!",
       plant,
     });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -128,12 +138,12 @@ export const getAllPlantController: RequestHandler = async (
   try {
     const allPlant = await Plant.find({});
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "All plants are successfully returned!",
       allPlant,
     });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
