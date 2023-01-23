@@ -30,6 +30,7 @@ describe("Auth Controllers", () => {
     });
 
     expect(res.body).toEqual({ success: false, message: "Missing info!" });
+    expect(res.statusCode).toBe(400);
   });
 
   test("POST - /auth/signup --> User is created successfully. Return success message", async () => {
@@ -41,12 +42,14 @@ describe("Auth Controllers", () => {
         message: "Signup Success!",
       })
     );
+    expect(res.statusCode).toBe(201);
   });
 
   test("POST - /auth/signup --> When email has already existed. Return error message", async () => {
     const res = await request.post(`${link}/signup`).send(dummyUser);
 
     expect(res.body).toEqual({ success: false, message: "User already exist" });
+    expect(res.statusCode).toBe(404);
   });
 
   test("POST - /auth/signin --> When user doesn't exist. Return error message", async () => {
@@ -56,6 +59,7 @@ describe("Auth Controllers", () => {
     });
 
     expect(res.body).toEqual({ success: false, message: "User doesn't exist" });
+    expect(res.statusCode).toBe(404);
   });
 
   test("POST - /auth/signin --> When password isn't correct. Return error message", async () => {
@@ -68,6 +72,7 @@ describe("Auth Controllers", () => {
       success: false,
       message: "Password is incorrect",
     });
+    expect(res.statusCode).toBe(400);
   });
 
   test("POST - /auth/signin --> When signing is happend successfully. Return success message", async () => {
@@ -79,5 +84,6 @@ describe("Auth Controllers", () => {
     expect(res.body).toEqual(
       expect.objectContaining({ success: true, message: "Signin Success!" })
     );
+    expect(res.statusCode).toBe(201);
   });
 });

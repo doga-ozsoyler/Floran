@@ -11,11 +11,13 @@ export const signupController: RequestHandler = async (
     const { nickname, email, password } = req?.body;
 
     if (!nickname || !email || !password)
-      return res.json({ success: false, message: "Missing info!" });
+      return res.status(400).json({ success: false, message: "Missing info!" });
 
     const isEmailExist = await User.findOne({ email: email });
     if (isEmailExist)
-      return res.json({ success: false, message: "User already exist" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User already exist" });
 
     const passwordHash = await bcrypt.hash(password, 15);
 
@@ -28,9 +30,9 @@ export const signupController: RequestHandler = async (
       addedPlants: [],
     });
 
-    res.json({ success: true, message: "Signup Success!", user });
+    res.status(201).json({ success: true, message: "Signup Success!", user });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -41,21 +43,25 @@ export const signinController: RequestHandler = async (
   try {
     const user = await User.findOne({ email: req?.body?.email });
     if (!user)
-      return res.json({ success: false, message: "User doesn't exist" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User doesn't exist" });
 
     const passwordIsValid = bcrypt.compareSync(
       req?.body?.password,
       `${user?.password}`
     );
     if (!passwordIsValid)
-      return res.json({ success: false, message: "Password is incorrect" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Password is incorrect" });
 
     const token = jwt.sign({ id: user._id }, `${process.env.JWT_SECRET}`, {
       expiresIn: "365d",
     });
 
-    res.json({ success: true, message: "Signin Success!", token });
+    res.status(201).json({ success: true, message: "Signin Success!", token });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
