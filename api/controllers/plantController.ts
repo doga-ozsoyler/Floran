@@ -3,6 +3,7 @@ import { IReqAuth } from "../config/interface";
 import { User } from "../models/user";
 import { Plant } from "../models/plant";
 import { ObjectId } from "mongoose";
+import { getOrSetCache } from "../utils/redis";
 
 export const postPlantController: RequestHandler = async (
   req: IReqAuth,
@@ -119,7 +120,11 @@ export const getPlantController: RequestHandler = async (
   try {
     const { plantID } = req?.params;
 
-    const plant = await Plant.findById(plantID);
+    const plant = await getOrSetCache("plant", async () => {
+      const plant = await Plant.findById(plantID);
+
+      return plant;
+    });
 
     res.status(200).json({
       success: false,
@@ -136,7 +141,11 @@ export const getAllPlantController: RequestHandler = async (
   res: Response
 ) => {
   try {
-    const allPlant = await Plant.find({});
+    const allPlant = await getOrSetCache("allPlant", async () => {
+      const allPlant = await Plant.find({});
+
+      return allPlant;
+    });
 
     res.status(200).json({
       success: true,

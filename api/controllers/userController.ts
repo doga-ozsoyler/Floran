@@ -3,6 +3,7 @@ import { IReqAuth } from "../config/interface";
 import { User } from "../models/user";
 import bcrypt from "bcrypt";
 import { Reminder } from "../models/reminder";
+import { getOrSetCache } from "../utils/redis";
 
 export const getUserController: RequestHandler = async (
   req: IReqAuth,
@@ -12,7 +13,13 @@ export const getUserController: RequestHandler = async (
     if (!req.user)
       return res.json({ success: false, message: "Invalid Authentication" });
 
-    const user = await User.findById(req.user._id).select("-password");
+    const { _id } = req.user;
+
+    const user = await getOrSetCache(`user${_id}`, async () => {
+      const user = await User.findById(_id).select("-password");
+
+      return user;
+    });
 
     res.status(200).json({
       success: true,

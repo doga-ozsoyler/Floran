@@ -2,6 +2,7 @@ import { RequestHandler, Response } from "express";
 import { IReqAuth } from "../config/interface";
 import { Reminder } from "../models/reminder";
 import { User } from "../models/user";
+import { getOrSetCache } from "../utils/redis";
 
 export const postReminderController: RequestHandler = async (
   req: IReqAuth,
@@ -54,9 +55,15 @@ export const getReminderController: RequestHandler = async (
         .status(401)
         .json({ success: false, message: "Invalid Authentication" });
 
-    const user = await User.find({
-      _id: req.user._id,
-      reminders: reminderID,
+    const { _id } = req.user;
+
+    const user = await getOrSetCache(`user${_id}`, async () => {
+      const user = await User.find({
+        _id: _id,
+        reminders: reminderID,
+      });
+
+      return user;
     });
 
     if (!user.length)
@@ -65,7 +72,11 @@ export const getReminderController: RequestHandler = async (
         message: "Reminder doesn't belong the user!",
       });
 
-    const reminder = await Reminder.findById(reminderID);
+    const reminder = await getOrSetCache(`reminder${_id}`, async () => {
+      const reminder = await Reminder.findById(reminderID);
+
+      return reminder;
+    });
 
     res.status(200).json({
       success: true,
