@@ -73,7 +73,7 @@ export const getReminderController: RequestHandler = async (
       });
 
     const reminder = await getOrSetCache(`reminder${_id}`, async () => {
-      const reminder = await Reminder.findById(reminderID);
+      const reminder = await Reminder.findById(reminderID).populate("plant");
 
       return reminder;
     });

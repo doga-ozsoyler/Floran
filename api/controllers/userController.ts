@@ -16,7 +16,11 @@ export const getUserController: RequestHandler = async (
     const { _id } = req.user;
 
     const user = await getOrSetCache(`user${_id}`, async () => {
-      const user = await User.findById(_id).select("-password");
+      const user = await User.findById(_id)
+        .select("-password")
+        .populate("plants")
+        .populate("reminders")
+        .populate("addedPlants");
 
       return user;
     });
