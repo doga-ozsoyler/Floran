@@ -15,6 +15,7 @@ const dummyUser = {
 };
 const dummyPlant = {
   name: faker.animal.lion(),
+  whenToWater: faker.datatype.number(),
   petFriendly: faker.datatype.boolean(),
   sunExposure: faker.datatype.number(),
   fertilizer: faker.datatype.number(),
@@ -70,6 +71,7 @@ describe("GET - /user/get", () => {
       message: "User is successfully returned!",
       user: testUser,
     });
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -124,6 +126,7 @@ describe("PUT - /user/update/info", () => {
         message: "User is successfully updated!",
       })
     );
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -179,6 +182,7 @@ describe("PUT - /user/update/password", () => {
         message: "Password is incorrect",
       })
     );
+    expect(res.statusCode).toBe(400);
   });
 
   test("When user's password is successfully updated. Return success message", async () => {
@@ -193,6 +197,7 @@ describe("PUT - /user/update/password", () => {
         message: "Password is successfully updated!",
       })
     );
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -252,7 +257,8 @@ describe("PUT - /user/own/plants", () => {
       success: true,
       message: "Plant is successfully added plants list!",
     });
-    expect(userRes.body.user.plants).toContain(testPlant._id);
+    expect(userRes.body.user.plants[0]._id).toContain(testPlant._id);
+    expect(res.statusCode).toBe(200);
   });
 
   test("When user successfully outs the  plant in plants list. Return success message", async () => {
@@ -272,6 +278,7 @@ describe("PUT - /user/own/plants", () => {
       message: "Plant is successfully outed plants list!",
     });
     expect(userRes.body.user.plants).not.toContain(testPlant._id);
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -354,5 +361,6 @@ describe("DELETE - /user/delete", () => {
     expect(tryGetUser.text).toEqual(
       '{"success":false,"message":"User doesn\'t exist"}'
     );
+    expect(res.statusCode).toBe(200);
   });
 });

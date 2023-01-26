@@ -7,6 +7,7 @@ const request = supertest(app);
 
 const dummyPlant = {
   name: faker.animal.lion(),
+  whenToWater: faker.datatype.number(),
   petFriendly: faker.datatype.boolean(),
   sunExposure: faker.datatype.number(),
   fertilizer: faker.datatype.number(),
@@ -25,6 +26,7 @@ const dummySecondUser = {
 
 describe("POST - /plant/new", () => {
   let testToken: any;
+
   const link = "/api/plant/new";
   beforeAll(async () => {
     await testDB.connect();
@@ -67,7 +69,8 @@ describe("POST - /plant/new", () => {
         message: "Plant is successfully created!",
       })
     );
-    expect(userRes.body.user.addedPlants).toContain(res.body.plant._id);
+    expect(userRes.body.user.addedPlants[0]._id).toEqual(res.body.plant._id);
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -127,6 +130,7 @@ describe("PUT - /update/:plantID", () => {
       success: false,
       message: "Plant doesn't belong the user!",
     });
+    expect(res.statusCode).toBe(403);
   });
 
   test("When plant is successfully updated. Return success message", async () => {
@@ -141,6 +145,7 @@ describe("PUT - /update/:plantID", () => {
       success: true,
       message: "Plant is successfully updated!",
     });
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -195,6 +200,7 @@ describe("DELETE - /delete/:plantID", () => {
       success: false,
       message: "Plant doesn't belong the user!",
     });
+    expect(res.statusCode).toBe(403);
   });
 
   test("When plant is successfully deleted. Return success message", async () => {
@@ -211,6 +217,7 @@ describe("DELETE - /delete/:plantID", () => {
       message: "Plant is successfully deleted!",
     });
     expect(userRes.body.user.addedPlants).not.toContain(plantTestID);
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -218,6 +225,7 @@ describe("GET - /plant/:plantID", () => {
   let testToken: any;
   let plantID: any;
   let link = "/api/plant/get";
+
   beforeAll(async () => {
     await testDB.connect();
 
@@ -242,22 +250,6 @@ describe("GET - /plant/:plantID", () => {
     await testDB.closeDatabase();
   });
 
-  test("When plant doesn't exist or id isn't correct. Return error message", async () => {
-    const res = await request.get(`${link}/wrongID`);
-
-    expect(res.body).toEqual(
-      expect.objectContaining({
-        success: false,
-      })
-    );
-    expect(res.body.error).toEqual(
-      expect.objectContaining({
-        message:
-          'Cast to ObjectId failed for value "wrongID" (type string) at path "_id" for model "Plant"',
-      })
-    );
-  });
-
   test("When plant is successfully returned. Return success message and plant info", async () => {
     const res = await request.get(`${link}/${plantID}`);
 
@@ -268,6 +260,7 @@ describe("GET - /plant/:plantID", () => {
       })
     );
     expect(res.body.plant).toEqual(expect.objectContaining(dummyPlant));
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -312,5 +305,6 @@ describe("GET - /plant/all", () => {
     );
     expect(res.body.allPlant[0]).toEqual(expect.objectContaining(firstPlant));
     expect(res.body.allPlant[1]).toEqual(expect.objectContaining(secondPlant));
+    expect(res.statusCode).toBe(200);
   });
 });

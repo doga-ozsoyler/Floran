@@ -3,6 +3,7 @@ import { IReqAuth } from "../config/interface";
 import { User } from "../models/user";
 import bcrypt from "bcrypt";
 import { Reminder } from "../models/reminder";
+import { getOrSetCache } from "../utils/redis";
 
 export const getUserController: RequestHandler = async (
   req: IReqAuth,
@@ -12,15 +13,25 @@ export const getUserController: RequestHandler = async (
     if (!req.user)
       return res.json({ success: false, message: "Invalid Authentication" });
 
-    const user = await User.findById(req.user._id).select("-password");
+    const { _id } = req.user;
 
-    res.json({
+    const user = await getOrSetCache(`user${_id}`, async () => {
+      const user = await User.findById(_id)
+        .select("-password")
+        .populate("plants")
+        .populate("reminders")
+        .populate("addedPlants");
+
+      return user;
+    });
+
+    res.status(200).json({
       success: true,
       message: "User is successfully returned!",
       user,
     });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -37,9 +48,11 @@ export const updateUserController: RequestHandler = async (
       email: req?.body?.email,
     });
 
-    res.json({ success: true, message: "User is successfully updated!" });
+    res
+      .status(200)
+      .json({ success: true, message: "User is successfully updated!" });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -59,7 +72,9 @@ export const updateUserPasswordController: RequestHandler = async (
     );
 
     if (!comparePasswords)
-      return res.json({ success: false, message: "Password is incorrect" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Password is incorrect" });
 
     const newPasswordHash = await bcrypt.hash(req?.body?.newPassword, 15);
 
@@ -67,9 +82,11 @@ export const updateUserPasswordController: RequestHandler = async (
       password: newPasswordHash,
     });
 
-    res.json({ success: true, message: "Password is successfully updated!" });
+    res
+      .status(200)
+      .json({ success: true, message: "Password is successfully updated!" });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -84,19 +101,19 @@ export const ownPlantUserController: RequestHandler = async (
     const user = await User.findById(req.user._id);
     if (user && !user.plants.includes(req.body.plantID)) {
       await user.updateOne({ $push: { plants: req.body.plantID } });
-      res.json({
+      res.status(200).json({
         success: true,
         message: "Plant is successfully added plants list!",
       });
     } else if (user) {
       await user.updateOne({ $pull: { plants: req.body.plantID } });
-      res.json({
+      res.status(200).json({
         success: true,
         message: "Plant is successfully outed plants list!",
       });
     }
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };
 
@@ -117,8 +134,10 @@ export const deleteUserController: RequestHandler = async (
       await Reminder.findByIdAndDelete(allUserReminder[i]);
     }
 
-    res.json({ success: true, message: "User is successfully deleted!" });
+    res
+      .status(200)
+      .json({ success: true, message: "User is successfully deleted!" });
   } catch (error) {
-    res.json({ success: false, error });
+    res.status(500).json({ success: false, error });
   }
 };

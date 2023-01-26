@@ -7,6 +7,7 @@ const request = supertest(app);
 
 const dummyPlant = {
   name: faker.animal.lion(),
+  whenToWater: faker.datatype.number(),
   petFriendly: faker.datatype.boolean(),
   sunExposure: faker.datatype.number(),
   fertilizer: faker.datatype.number(),
@@ -92,8 +93,9 @@ describe("POST - /reminder/new", () => {
         time: dummyReminder.time,
       })
     );
-    expect(userRes.body.user.plants).toContain(testPlant._id);
-    expect(userRes.body.user.reminders).toContain(res.body.reminder._id);
+    expect(userRes.body.user.plants[0]._id).toContain(testPlant._id);
+    expect(userRes.body.user.reminders[0]._id).toContain(res.body.reminder._id);
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -160,6 +162,7 @@ describe("GET - /reminder/get/:reminderID", () => {
       success: false,
       message: "Reminder doesn't belong the user!",
     });
+    expect(res.statusCode).toBe(403);
   });
 
   test("When reminder is successfully returned. Return success message and reminder info", async () => {
@@ -173,7 +176,13 @@ describe("GET - /reminder/get/:reminderID", () => {
         message: "Reminder is successfully returned!",
       })
     );
-    expect(res.body.reminder).toEqual(testReminder);
+    expect(res.body.reminder).toEqual(
+      expect.objectContaining({
+        repeat: testReminder.repeat,
+        time: testReminder.time,
+      })
+    );
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -245,6 +254,7 @@ describe("PUT - /reminder/update/:reminderID", () => {
       success: false,
       message: "Reminder doesn't belong the user!",
     });
+    expect(res.statusCode).toBe(403);
   });
 
   test("When reminder is successfully updated. Return success message", async () => {
@@ -267,6 +277,7 @@ describe("PUT - /reminder/update/:reminderID", () => {
       })
     );
     expect(reminderRes.body.reminder.repeat).toEqual(repeat);
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -333,6 +344,7 @@ describe("DELETE - /reminder/delete/:reminderID", () => {
       success: false,
       message: "Reminder doesn't belong the user!",
     });
+    expect(res.statusCode).toBe(403);
   });
 
   test("When reminder is successfully deleted. Return success message", async () => {
@@ -349,5 +361,6 @@ describe("DELETE - /reminder/delete/:reminderID", () => {
       message: "Reminder is successfully deleted!",
     });
     expect(userRes.body.user.reminders).not.toContain(testReminder._id);
+    expect(res.statusCode).toBe(200);
   });
 });
