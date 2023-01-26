@@ -17,6 +17,7 @@ export const postPlantController: RequestHandler = async (
 
     const plant = await Plant.create({
       name: req?.body?.name,
+      whenToWater: req?.body?.whenToWater,
       petFriendly: req?.body?.petFriendly,
       sunExposure: req?.body?.sunExposure,
       fertilizer: req?.body?.fertilizer,
@@ -68,6 +69,7 @@ export const updatePlantController: RequestHandler = async (
 
     await Plant.findByIdAndUpdate(plantID, {
       name: req?.body?.name,
+      whenToWater: req?.body?.whenToWater,
       petFriendly: req?.body?.petFriendly,
       sunExposure: req?.body?.sunExposure,
       fertilizer: req?.body?.fertilizer,
