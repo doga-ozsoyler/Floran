@@ -20,18 +20,15 @@ export const postReminderController: RequestHandler = async (
       time: req?.body?.time,
     });
 
-    const user = await User.find({
-      _id: req.user._id,
-      plants: req.body.plant,
-    });
+    const user = await User.findById(req.user._id);
 
-    const pushObject = !user.length
-      ? { plants: req.body.plant, reminders: reminder._id }
-      : { reminders: reminder._id };
-
-    await User.findByIdAndUpdate(req.user._id, {
-      $push: pushObject,
-    });
+    if (user && !user.plants.includes(req.body.plantID)) {
+      await user.updateOne({
+        $push: { plants: req.body.plant, reminders: reminder._id },
+      });
+    } else if (user) {
+      await user.updateOne({ $push: { reminders: reminder._id } });
+    }
 
     res.status(200).json({
       success: true,
