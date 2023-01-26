@@ -1,6 +1,7 @@
 import Redis from "ioredis";
 import RedisTest from "ioredis-mock";
 
+// By default, it will connect to localhost:6379.
 const redisClient =
   process.env.NODE_ENV !== "TEST" ? new Redis() : new RedisTest();
 
