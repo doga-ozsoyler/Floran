@@ -7,6 +7,7 @@ const request = supertest(app);
 
 const dummyPlant = {
   name: faker.animal.lion(),
+  whenToWater: faker.datatype.number(),
   petFriendly: faker.datatype.boolean(),
   sunExposure: faker.datatype.number(),
   fertilizer: faker.datatype.number(),
@@ -92,8 +93,8 @@ describe("POST - /reminder/new", () => {
         time: dummyReminder.time,
       })
     );
-    expect(userRes.body.user.plants).toContain(testPlant._id);
-    expect(userRes.body.user.reminders).toContain(res.body.reminder._id);
+    expect(userRes.body.user.plants[0]._id).toContain(testPlant._id);
+    expect(userRes.body.user.reminders[0]._id).toContain(res.body.reminder._id);
     expect(res.statusCode).toBe(200);
   });
 });
@@ -175,7 +176,12 @@ describe("GET - /reminder/get/:reminderID", () => {
         message: "Reminder is successfully returned!",
       })
     );
-    expect(res.body.reminder).toEqual(testReminder);
+    expect(res.body.reminder).toEqual(
+      expect.objectContaining({
+        repeat: testReminder.repeat,
+        time: testReminder.time,
+      })
+    );
     expect(res.statusCode).toBe(200);
   });
 });

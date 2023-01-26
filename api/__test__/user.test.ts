@@ -15,6 +15,7 @@ const dummyUser = {
 };
 const dummyPlant = {
   name: faker.animal.lion(),
+  whenToWater: faker.datatype.number(),
   petFriendly: faker.datatype.boolean(),
   sunExposure: faker.datatype.number(),
   fertilizer: faker.datatype.number(),
@@ -256,7 +257,7 @@ describe("PUT - /user/own/plants", () => {
       success: true,
       message: "Plant is successfully added plants list!",
     });
-    expect(userRes.body.user.plants).toContain(testPlant._id);
+    expect(userRes.body.user.plants[0]._id).toContain(testPlant._id);
     expect(res.statusCode).toBe(200);
   });
 

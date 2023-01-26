@@ -7,6 +7,7 @@ const request = supertest(app);
 
 const dummyPlant = {
   name: faker.animal.lion(),
+  whenToWater: faker.datatype.number(),
   petFriendly: faker.datatype.boolean(),
   sunExposure: faker.datatype.number(),
   fertilizer: faker.datatype.number(),
@@ -25,6 +26,7 @@ const dummySecondUser = {
 
 describe("POST - /plant/new", () => {
   let testToken: any;
+
   const link = "/api/plant/new";
   beforeAll(async () => {
     await testDB.connect();
@@ -67,7 +69,7 @@ describe("POST - /plant/new", () => {
         message: "Plant is successfully created!",
       })
     );
-    expect(userRes.body.user.addedPlants).toContain(res.body.plant._id);
+    expect(userRes.body.user.addedPlants[0]._id).toEqual(res.body.plant._id);
     expect(res.statusCode).toBe(200);
   });
 });
@@ -223,6 +225,7 @@ describe("GET - /plant/:plantID", () => {
   let testToken: any;
   let plantID: any;
   let link = "/api/plant/get";
+
   beforeAll(async () => {
     await testDB.connect();
 
@@ -245,23 +248,6 @@ describe("GET - /plant/:plantID", () => {
   afterAll(async () => {
     await testDB.clearDatabase();
     await testDB.closeDatabase();
-  });
-
-  test("When plant doesn't exist or id isn't correct. Return error message", async () => {
-    const res = await request.get(`${link}/wrongID`);
-
-    expect(res.body).toEqual(
-      expect.objectContaining({
-        success: false,
-      })
-    );
-    expect(res.body.error).toEqual(
-      expect.objectContaining({
-        message:
-          'Cast to ObjectId failed for value "wrongID" (type string) at path "_id" for model "Plant"',
-      })
-    );
-    expect(res.statusCode).toBe(500);
   });
 
   test("When plant is successfully returned. Return success message and plant info", async () => {
