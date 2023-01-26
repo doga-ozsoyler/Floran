@@ -55,15 +55,12 @@ export const getReminderController: RequestHandler = async (
     const { _id } = req.user;
 
     const user = await getOrSetCache(`user${_id}`, async () => {
-      const user = await User.find({
-        _id: _id,
-        reminders: reminderID,
-      });
+      const user = await User.findById(_id);
 
       return user;
     });
 
-    if (!user.length)
+    if (!user.reminders.includes(reminderID))
       return res.status(403).json({
         success: false,
         message: "Reminder doesn't belong the user!",
