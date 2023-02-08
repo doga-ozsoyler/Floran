@@ -1,7 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  Ionicons,
+  FontAwesome5,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import AllPlantsScreen from "../screens/AllPlantsScreen";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import Profile from "../screens/Profile";
+import MyPlants from "../screens/MyPlants";
 
 const Tabs = () => {
   const Tab = createBottomTabNavigator();
@@ -25,6 +30,24 @@ const Tabs = () => {
         }}
         name="AllPlantsScreen"
         component={AllPlantsScreen}
+      />
+      <Tab.Screen
+        options={{
+          title: "My Plants",
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? "tree" : "tree-outline"}
+              color="green"
+              size={30}
+            />
+          ),
+          headerTintColor: "green",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+        name="MyPlants"
+        component={MyPlants}
       />
       <Tab.Screen
         options={{
