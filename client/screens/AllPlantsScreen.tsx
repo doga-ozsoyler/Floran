@@ -31,7 +31,7 @@ const AllPlantsScreen: FC = () => {
   }, []);
 
   return (
-    <Center bg="coolGray.50" flex={1} pt="60px">
+    <Center bg="coolGray.50" flex={1}>
       <Box mb="10px" width="90%">
         <Input
           placeholder="Search Plant"
