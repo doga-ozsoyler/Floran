@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { MyKnownError, PlantState, allPlantRes } from "../../types";
 
-const SERVER_URL = "http://192.168.100.23:3939/api";
+const SERVER_URL = "http://192.168.1.5:3939/api";
 
 export const fetchAllPlant = createAsyncThunk<allPlantRes>(
   "plant/fetchAllPlant",
