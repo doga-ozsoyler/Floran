@@ -10,6 +10,7 @@ import MyPlantsScreen from "../screens/MyPlantsScreen";
 import RemindersScreen from "../screens/RemindersScreen";
 import { useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
+import { IconButton, Icon } from "native-base";
 
 const Tabs = () => {
   const Tab = createBottomTabNavigator();
@@ -26,6 +27,13 @@ const Tabs = () => {
             onPress={() => {
               navigation.goBack();
             }}
+          />
+        ),
+        headerRight: () => (
+          <IconButton
+            icon={<Icon as={FontAwesome5} name="plus" />}
+            style={{ marginRight: 10 }}
+            colorScheme="green"
           />
         ),
       }}
