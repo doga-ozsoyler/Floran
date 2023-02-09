@@ -1,14 +1,13 @@
-import { FC } from "react";
-
+export interface plantData {
+  _id: string;
+  fertilizer: number;
+  name: string;
+  petFriendly: boolean;
+  picture: string;
+  sunExposure: number;
+}
 export interface allPlantRes {
-  allPlant?: {
-    _id: string;
-    fertilizer: number;
-    name: string;
-    petFriendly: boolean;
-    picture: string;
-    sunExposure: number;
-  }[];
+  allPlant?: plantData[];
   message: string;
   success: boolean;
 }

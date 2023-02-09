@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import {
   Center,
@@ -15,20 +15,36 @@ import {
 import { AppDispatch, RootState } from "../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllPlant } from "../redux/slices/plantReducer";
+import { plantData } from "../types";
 
 const AllPlantsScreen: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
+  const [search, setSearch] = useState<string>(() => "");
+  const [searchedDataSource, setSearchedDataSource] = useState<plantData[]>([]);
+
   const allPlantList = useSelector((state: RootState) => {
     return state.plant.allPlantRes?.allPlant;
   });
-  console.log(allPlantList);
 
   useEffect(() => {
     dispatch(fetchAllPlant());
+    setSearchedDataSource(allPlantList ? allPlantList : []);
 
     return () => {};
   }, []);
+
+  useEffect(() => {
+    const filteredPlants = allPlantList?.filter(function (item) {
+      //search
+      const itemData = item.name.toUpperCase();
+      const textData = search.toUpperCase();
+
+      return itemData.indexOf(textData) === -1 ? false : true;
+    });
+
+    setSearchedDataSource(filteredPlants ? filteredPlants : []);
+  }, [search]);
 
   return (
     <Center bg="coolGray.50" flex={1}>
@@ -38,6 +54,7 @@ const AllPlantsScreen: FC = () => {
           borderRadius="md"
           fontSize="14"
           m="5px"
+          onChangeText={(text) => setSearch(text)}
           InputLeftElement={
             <Icon
               m="2"
@@ -51,7 +68,7 @@ const AllPlantsScreen: FC = () => {
       </Box>
       <FlatList
         style={{ width: "90%" }}
-        data={allPlantList}
+        data={searchedDataSource}
         renderItem={({ item }) => (
           <Box
             style={{
