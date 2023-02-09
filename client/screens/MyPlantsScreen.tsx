@@ -1,7 +1,7 @@
 import React from "react";
 import { Center, Text } from "native-base";
 
-const MyPlants = () => {
+const MyPlantsScreen = () => {
   return (
     <Center flex={1}>
       <Text>My Plants</Text>
@@ -9,4 +9,4 @@ const MyPlants = () => {
   );
 };
 
-export default MyPlants;
+export default MyPlantsScreen;

@@ -1,12 +1,11 @@
 import React from "react";
 import { Center, Text } from "native-base";
 
-const Profile = () => {
+const RemindersScreen = () => {
   return (
     <Center flex={1}>
-      <Text>Profile</Text>
+      <Text>Reminders</Text>
     </Center>
   );
 };
-
-export default Profile;
+export default RemindersScreen;

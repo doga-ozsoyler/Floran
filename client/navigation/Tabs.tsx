@@ -5,14 +5,31 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import AllPlantsScreen from "../screens/AllPlantsScreen";
-import Profile from "../screens/Profile";
-import MyPlants from "../screens/MyPlants";
+import ProfileScreen from "../screens/ProfileScreen";
+import MyPlantsScreen from "../screens/MyPlantsScreen";
+import RemindersScreen from "../screens/RemindersScreen";
+import { useNavigation } from "@react-navigation/native";
+import { HeaderBackButton } from "@react-navigation/elements";
 
 const Tabs = () => {
   const Tab = createBottomTabNavigator();
+  const navigation = useNavigation();
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      backBehavior="history"
+      screenOptions={{
+        headerLeft: () => (
+          <HeaderBackButton
+            style={{ marginLeft: 10 }}
+            tintColor="green"
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
+        ),
+      }}
+    >
       <Tab.Screen
         options={{
           title: "Plants",
@@ -46,8 +63,26 @@ const Tabs = () => {
             fontWeight: "bold",
           },
         }}
-        name="MyPlants"
-        component={MyPlants}
+        name="MyPlantsScreen"
+        component={MyPlantsScreen}
+      />
+      <Tab.Screen
+        options={{
+          title: "Reminders",
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? "clock-time-four" : "clock-time-four-outline"}
+              color="green"
+              size={30}
+            />
+          ),
+          headerTintColor: "green",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+        name="RemindersScreen"
+        component={RemindersScreen}
       />
       <Tab.Screen
         options={{
@@ -64,8 +99,8 @@ const Tabs = () => {
             fontWeight: "bold",
           },
         }}
-        name="Profile"
-        component={Profile}
+        name="ProfileScreen"
+        component={ProfileScreen}
       />
     </Tab.Navigator>
   );
