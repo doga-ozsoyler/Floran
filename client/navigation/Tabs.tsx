@@ -11,6 +11,9 @@ import RemindersScreen from "../screens/RemindersScreen";
 import { useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { IconButton, Icon } from "native-base";
+import { StyleSheet } from "react-native";
+const TABICONSIZE = 30;
+const TABICONCOLOR = "green";
 
 const Tabs = () => {
   const Tab = createBottomTabNavigator();
@@ -23,7 +26,7 @@ const Tabs = () => {
         headerLeft: () => (
           <HeaderBackButton
             style={{ marginLeft: 10 }}
-            tintColor="green"
+            tintColor={TABICONCOLOR}
             onPress={() => {
               navigation.goBack();
             }}
@@ -33,7 +36,7 @@ const Tabs = () => {
           <IconButton
             icon={<Icon as={FontAwesome5} name="plus" />}
             style={{ marginRight: 10 }}
-            colorScheme="green"
+            colorScheme={TABICONCOLOR}
           />
         ),
       }}
@@ -44,11 +47,11 @@ const Tabs = () => {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "md-leaf" : "md-leaf-outline"}
-              color="green"
-              size={30}
+              color={TABICONCOLOR}
+              size={TABICONSIZE}
             />
           ),
-          headerTintColor: "green",
+          headerTintColor: TABICONCOLOR,
           headerTitleStyle: {
             fontWeight: "bold",
           },
@@ -62,11 +65,11 @@ const Tabs = () => {
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
               name={focused ? "tree" : "tree-outline"}
-              color="green"
-              size={30}
+              color={TABICONCOLOR}
+              size={TABICONSIZE}
             />
           ),
-          headerTintColor: "green",
+          headerTintColor: TABICONCOLOR,
           headerTitleStyle: {
             fontWeight: "bold",
           },
@@ -80,11 +83,11 @@ const Tabs = () => {
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
               name={focused ? "clock-time-four" : "clock-time-four-outline"}
-              color="green"
-              size={30}
+              color={TABICONCOLOR}
+              size={TABICONSIZE}
             />
           ),
-          headerTintColor: "green",
+          headerTintColor: TABICONCOLOR,
           headerTitleStyle: {
             fontWeight: "bold",
           },
@@ -98,11 +101,11 @@ const Tabs = () => {
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               name={focused ? "user-alt" : "user"}
-              color="green"
-              size={30}
+              color={TABICONCOLOR}
+              size={TABICONSIZE}
             />
           ),
-          headerTintColor: "green",
+          headerTintColor: TABICONCOLOR,
           headerTitleStyle: {
             fontWeight: "bold",
           },

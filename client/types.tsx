@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 export interface plantData {
   _id: string;
   fertilizer: number;
@@ -21,4 +23,12 @@ export interface PlantState {
 
 export interface MyKnownError {
   errorMessage: string;
+}
+
+export interface TabScreenI {
+  title: string;
+  iconLib: any;
+  icon: string;
+  outlineIcon: string;
+  component: FC;
 }
