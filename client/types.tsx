@@ -1,35 +1,42 @@
-/**
- * Learn more about using TypeScript with React Navigation:
- * https://reactnavigation.org/docs/typescript/
- */
+import { Dispatch, FC, SetStateAction } from "react";
 
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
+export interface plantData {
+  _id: string;
+  fertilizer: number;
+  name: string;
+  petFriendly: boolean;
+  picture: string;
+  sunExposure: number;
+}
+export interface allPlantRes {
+  allPlant?: plantData[];
+  message: string;
+  success: boolean;
+}
+export interface PlantState {
+  loading: boolean;
+  error: any;
+  isUpdated: boolean;
+  allPlantRes: allPlantRes | null;
+  plantData: {} | null;
 }
 
-export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Modal: undefined;
-  NotFound: undefined;
-};
+export interface MyKnownError {
+  errorMessage: string;
+}
 
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
-  RootStackParamList,
-  Screen
->;
+export interface TabScreenI {
+  title: string;
+  iconLib: any;
+  icon: string;
+  outlineIcon: string;
+  component: FC;
+}
 
-export type RootTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
-};
+export interface SearchBarI {
+  setSearch: Dispatch<SetStateAction<string>>;
+}
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
-  NativeStackScreenProps<RootStackParamList>
->;
+export interface PressablePlantCardI {
+  plantData: plantData;
+}

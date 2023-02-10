@@ -1,22 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import { StatusBar } from "expo-status-bar";
+import { NativeBaseProvider } from "native-base";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import AllPlantsScreen from "./screens/AllPlantsScreen";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+import Tabs from "./navigation/Tabs";
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
-    );
-  }
+  return (
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <Tabs />
+        </NavigationContainer>
+      </NativeBaseProvider>
+      <StatusBar />
+    </Provider>
+  );
 }
