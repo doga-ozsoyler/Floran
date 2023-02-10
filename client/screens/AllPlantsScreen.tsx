@@ -16,36 +16,27 @@ import {
 import { AppDispatch, RootState } from "../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllPlant } from "../redux/slices/plantReducer";
-import { plantData } from "../types";
+import getSearchDataSource from "../hooks/getSearchDataSource";
 
 const AllPlantsScreen: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [search, setSearch] = useState<string>(() => "");
-  const [searchedDataSource, setSearchedDataSource] = useState<plantData[]>([]);
 
   const allPlantList = useSelector((state: RootState) => {
     return state.plant.allPlantRes?.allPlant;
   });
 
+  const searchedDataSource = getSearchDataSource(
+    search,
+    allPlantList ? allPlantList : []
+  );
+
   useEffect(() => {
     dispatch(fetchAllPlant());
-    setSearchedDataSource(allPlantList ? allPlantList : []);
 
     return () => {};
   }, []);
-
-  useEffect(() => {
-    const filteredPlants = allPlantList?.filter(function (item) {
-      //search
-      const itemData = item.name.toUpperCase();
-      const textData = search.toUpperCase();
-
-      return itemData.indexOf(textData) === -1 ? false : true;
-    });
-
-    setSearchedDataSource(filteredPlants ? filteredPlants : []);
-  }, [search]);
 
   return (
     <Center bg="coolGray.50" flex={1}>
