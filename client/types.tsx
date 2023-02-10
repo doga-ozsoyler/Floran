@@ -36,3 +36,7 @@ export interface TabScreenI {
 export interface SearchBarI {
   setSearch: Dispatch<SetStateAction<string>>;
 }
+
+export interface PressablePlantCardI {
+  plantData: plantData;
+}
