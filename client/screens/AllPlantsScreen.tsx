@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { MaterialIcons, Feather } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import {
   Center,
   FlatList,
@@ -8,7 +8,6 @@ import {
   HStack,
   VStack,
   Heading,
-  Input,
   Icon,
   Button,
   Pressable,
@@ -17,6 +16,7 @@ import { AppDispatch, RootState } from "../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllPlant } from "../redux/slices/plantReducer";
 import getSearchDataSource from "../hooks/getSearchDataSource";
+import SearchBar from "../components/SearchBar";
 
 const AllPlantsScreen: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,24 +40,7 @@ const AllPlantsScreen: FC = () => {
 
   return (
     <Center bg="coolGray.50" flex={1}>
-      <Box mb="10px" width="90%">
-        <Input
-          placeholder="Search Plant"
-          borderRadius="md"
-          fontSize="14"
-          m="5px"
-          onChangeText={(text) => setSearch(text)}
-          InputLeftElement={
-            <Icon
-              m="2"
-              ml="3"
-              size="6"
-              color="gray.400"
-              as={<MaterialIcons name="search" />}
-            />
-          }
-        />
-      </Box>
+      <SearchBar setSearch={setSearch} />
       <FlatList
         style={{ width: "90%" }}
         data={searchedDataSource}

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 
 export interface plantData {
   _id: string;
@@ -31,4 +31,8 @@ export interface TabScreenI {
   icon: string;
   outlineIcon: string;
   component: FC;
+}
+
+export interface SearchBarI {
+  setSearch: Dispatch<SetStateAction<string>>;
 }
