@@ -1,15 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-  persistStore,
-  persistReducer,
-} from "redux-persist";
+import { persistStore, persistReducer } from "redux-persist";
 import plantReducer from "./slices/plantReducer";
+import userReducer from "./slices/userReducer";
+import authReducer from "./slices/authReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const persistConfig = {
@@ -20,6 +13,8 @@ const persistConfig = {
 
 const reducer = combineReducers({
   plant: plantReducer,
+  user: userReducer,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

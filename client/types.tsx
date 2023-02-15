@@ -40,3 +40,47 @@ export interface SearchBarI {
 export interface PressablePlantCardI {
   plantData: plantData;
 }
+
+export interface ReminderData {
+  _id: string;
+  plant: string;
+  repeat: number;
+  time: Date;
+}
+
+export interface UserRes {
+  user?: {
+    _id: string;
+    nickname: string;
+    email: string;
+    plants: plantData[];
+    reminders: ReminderData[];
+    addedPlants: plantData[];
+  };
+  message: string;
+  success: boolean;
+}
+
+export interface AuthState {
+  auth: { token: string };
+}
+
+export interface UserState {
+  loading: boolean;
+  error: any;
+  isUpdated: boolean;
+  userRes: UserRes | null;
+}
+
+export interface SigninRes {
+  success: boolean;
+  message: string;
+  token?: string;
+}
+
+export interface AuthState {
+  loading: boolean;
+  error: any;
+  token: string | null;
+  signinRes: SigninRes | null;
+}
