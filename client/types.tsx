@@ -84,3 +84,7 @@ export interface AuthState {
   token: string | null;
   signinRes: SigninRes | null;
 }
+
+export interface LandingI {
+  children: string | JSX.Element | JSX.Element[];
+}

@@ -1,11 +1,12 @@
 import React from "react";
-import { Center, Text } from "native-base";
+import { Text } from "native-base";
+import Landing from "../components/Landing";
 
 const ProfileScreen = () => {
   return (
-    <Center flex={1}>
+    <Landing>
       <Text>Profile</Text>
-    </Center>
+    </Landing>
   );
 };
 

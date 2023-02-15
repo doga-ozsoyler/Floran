@@ -1,11 +1,12 @@
 import React from "react";
-import { Center, Text } from "native-base";
+import { Text } from "native-base";
+import Landing from "../components/Landing";
 
 const MyPlantsScreen = () => {
   return (
-    <Center flex={1}>
+    <Landing>
       <Text>My Plants</Text>
-    </Center>
+    </Landing>
   );
 };
 
