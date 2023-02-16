@@ -1,46 +1,37 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  createBottomTabNavigator,
+  BottomTabNavigationOptions,
+} from "@react-navigation/bottom-tabs";
 import {
   Ionicons,
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import AllPlantsScreen from "../screens/AllPlantsScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import MyPlantsScreen from "../screens/MyPlantsScreen";
-import RemindersScreen from "../screens/RemindersScreen";
-import { useNavigation } from "@react-navigation/native";
-import { HeaderBackButton } from "@react-navigation/elements";
-import { IconButton, Icon } from "native-base";
-import { StyleSheet } from "react-native";
+import {
+  AllPlantsStackNavigator,
+  MyPlantStackNavigator,
+  ProfileStackNavigator,
+  RemindersStackNavigator,
+} from "./Stack";
+import HeaderBackArraw from "./HeaderBackArraw";
+import HeaderAddPlantButton from "./HeaderAddPlantButton";
 const TABICONSIZE = 30;
 const TABICONCOLOR = "green";
 
 const Tabs = () => {
   const Tab = createBottomTabNavigator();
-  const navigation = useNavigation();
+
+  const tabOptionStyle: BottomTabNavigationOptions = {
+    headerLeft: () => <HeaderBackArraw />,
+    headerRight: () => <HeaderAddPlantButton />,
+    headerTintColor: TABICONCOLOR,
+    headerTitleStyle: {
+      fontWeight: "bold",
+    },
+  };
 
   return (
-    <Tab.Navigator
-      backBehavior="history"
-      screenOptions={{
-        headerLeft: () => (
-          <HeaderBackButton
-            style={{ marginLeft: 10 }}
-            tintColor={TABICONCOLOR}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        ),
-        headerRight: () => (
-          <IconButton
-            icon={<Icon as={FontAwesome5} name="plus" />}
-            style={{ marginRight: 10 }}
-            colorScheme={TABICONCOLOR}
-          />
-        ),
-      }}
-    >
+    <Tab.Navigator backBehavior="history" screenOptions={tabOptionStyle}>
       <Tab.Screen
         options={{
           title: "Plants",
@@ -51,13 +42,9 @@ const Tabs = () => {
               size={TABICONSIZE}
             />
           ),
-          headerTintColor: TABICONCOLOR,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
         }}
-        name="AllPlantsScreen"
-        component={AllPlantsScreen}
+        name="AllPlantsTab"
+        component={AllPlantsStackNavigator}
       />
       <Tab.Screen
         options={{
@@ -69,13 +56,9 @@ const Tabs = () => {
               size={TABICONSIZE}
             />
           ),
-          headerTintColor: TABICONCOLOR,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
         }}
-        name="MyPlantsScreen"
-        component={MyPlantsScreen}
+        name="MyPlantsTab"
+        component={MyPlantStackNavigator}
       />
       <Tab.Screen
         options={{
@@ -87,13 +70,9 @@ const Tabs = () => {
               size={TABICONSIZE}
             />
           ),
-          headerTintColor: TABICONCOLOR,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
         }}
-        name="RemindersScreen"
-        component={RemindersScreen}
+        name="RemindersTab"
+        component={RemindersStackNavigator}
       />
       <Tab.Screen
         options={{
@@ -105,13 +84,9 @@ const Tabs = () => {
               size={TABICONSIZE}
             />
           ),
-          headerTintColor: TABICONCOLOR,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
         }}
-        name="ProfileScreen"
-        component={ProfileScreen}
+        name="ProfileTab"
+        component={ProfileStackNavigator}
       />
     </Tab.Navigator>
   );

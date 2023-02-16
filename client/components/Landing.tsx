@@ -5,9 +5,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { selectToken } from "../redux/selector/authSelector";
 import { useSelector } from "react-redux";
 import { LandingI } from "../types";
+import { useNavigation } from "@react-navigation/native";
 
 const Landing = (props: LandingI) => {
   const { children } = props;
+  const navigation = useNavigation();
 
   const token = useSelector(selectToken);
   console.log(token);
@@ -27,6 +29,7 @@ const Landing = (props: LandingI) => {
             colorScheme="green"
             width="60%"
             size="sm"
+            // onPress={()=> navigation.navigate()}
           >
             Signin
           </Button>
