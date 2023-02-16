@@ -1,23 +1,18 @@
 import React from "react";
-import { IconButton, Icon } from "native-base";
-import { FontAwesome5 } from "@expo/vector-icons";
 
 import {
   createStackNavigator,
   StackNavigationOptions,
 } from "@react-navigation/stack";
-import { HeaderBackButton } from "@react-navigation/elements";
-import { useNavigation } from "@react-navigation/native";
 
 import AllPlantsScreen from "../screens/AllPlantsScreen";
 import MyPlantsScreen from "../screens/MyPlantsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import RemindersScreen from "../screens/RemindersScreen";
+import SigninScreen from "../screens/SigninScreen";
+import { StackParamList } from "./types";
 
-const TABICONSIZE = 30;
-const TABICONCOLOR = "green";
-
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<StackParamList>();
 
 const screenOptionStyle: StackNavigationOptions = {
   headerShown: false,
@@ -35,6 +30,7 @@ const MyPlantStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="MyPlantScreen" component={MyPlantsScreen} />
+      <Stack.Screen name="SigninScreen" component={SigninScreen} />
     </Stack.Navigator>
   );
 };

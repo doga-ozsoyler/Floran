@@ -15,11 +15,12 @@ import {
 } from "./Stack";
 import HeaderBackArraw from "./HeaderBackArraw";
 import HeaderAddPlantButton from "./HeaderAddPlantButton";
+import { TabParamList } from "./types";
 const TABICONSIZE = 30;
 const TABICONCOLOR = "green";
 
 const Tabs = () => {
-  const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator<TabParamList>();
 
   const tabOptionStyle: BottomTabNavigationOptions = {
     headerLeft: () => <HeaderBackArraw />,

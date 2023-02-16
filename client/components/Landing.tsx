@@ -6,10 +6,11 @@ import { selectToken } from "../redux/selector/authSelector";
 import { useSelector } from "react-redux";
 import { LandingI } from "../types";
 import { useNavigation } from "@react-navigation/native";
+import { generalScreenProp } from "../navigation/types";
 
 const Landing = (props: LandingI) => {
   const { children } = props;
-  const navigation = useNavigation();
+  const navigation = useNavigation<generalScreenProp>();
 
   const token = useSelector(selectToken);
   console.log(token);
@@ -29,7 +30,9 @@ const Landing = (props: LandingI) => {
             colorScheme="green"
             width="60%"
             size="sm"
-            // onPress={()=> navigation.navigate()}
+            onPress={() => {
+              navigation.navigate("SigninScreen");
+            }}
           >
             Signin
           </Button>
