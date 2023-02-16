@@ -1,4 +1,6 @@
 import React from "react";
+import HeaderBackArraw from "./HeaderBackArraw";
+import HeaderAddPlantButton from "./HeaderAddPlantButton";
 
 import {
   createStackNavigator,
@@ -15,13 +17,18 @@ import { StackParamList } from "./types";
 const Stack = createStackNavigator<StackParamList>();
 
 const screenOptionStyle: StackNavigationOptions = {
-  headerShown: false,
+  headerLeft: () => <HeaderBackArraw />,
+  headerRight: () => <HeaderAddPlantButton />,
+  headerTintColor: "green",
+  headerTitleStyle: {
+    fontWeight: "bold",
+  },
 };
 
 const AllPlantsStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="AllPlantsScreen" component={AllPlantsScreen} />
+      <Stack.Screen name="Plants" component={AllPlantsScreen} />
     </Stack.Navigator>
   );
 };
@@ -29,8 +36,8 @@ const AllPlantsStackNavigator = () => {
 const MyPlantStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="MyPlantScreen" component={MyPlantsScreen} />
-      <Stack.Screen name="SigninScreen" component={SigninScreen} />
+      <Stack.Screen name="My Plants" component={MyPlantsScreen} />
+      <Stack.Screen name="Signin" component={SigninScreen} />
     </Stack.Navigator>
   );
 };
@@ -38,7 +45,7 @@ const MyPlantStackNavigator = () => {
 const ProfileStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );
 };
@@ -46,7 +53,7 @@ const ProfileStackNavigator = () => {
 const RemindersStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="RemindersScreen" component={RemindersScreen} />
+      <Stack.Screen name="Reminders" component={RemindersScreen} />
     </Stack.Navigator>
   );
 };

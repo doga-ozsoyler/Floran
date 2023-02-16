@@ -31,7 +31,7 @@ const Landing = (props: LandingI) => {
             width="60%"
             size="sm"
             onPress={() => {
-              navigation.navigate("SigninScreen");
+              navigation.navigate("Signin");
             }}
           >
             Signin

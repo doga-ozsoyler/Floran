@@ -3,11 +3,11 @@ import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import type { StackNavigationProp } from "@react-navigation/stack";
 
 export type StackParamList = {
-  AllPlantsScreen: undefined;
-  MyPlantScreen: undefined;
-  SigninScreen: undefined;
-  ProfileScreen: undefined;
-  RemindersScreen: undefined;
+  Plants: undefined;
+  "My Plants": undefined;
+  Signin: undefined;
+  Profile: undefined;
+  Reminders: undefined;
 };
 
 export type TabParamList = {
