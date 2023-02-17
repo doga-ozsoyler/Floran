@@ -13,12 +13,11 @@ const Landing = (props: LandingI) => {
   const navigation = useNavigation<generalScreenProp>();
 
   const token = useSelector(selectToken);
-  console.log(token);
 
   useEffect(() => {}, []);
   return (
     <Center flex={1}>
-      {token ? (
+      {false ? (
         children
       ) : (
         <VStack alignItems="center" width="100%">

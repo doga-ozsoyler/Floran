@@ -22,7 +22,8 @@ export const signin = createAsyncThunk(
       return data;
     } catch (error: any) {
       return rejectWithValue({
-        data: error.response.data,
+        message: error.response.data.message,
+        success: error.response.data.success,
         status: error.response.status,
       });
     }

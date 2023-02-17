@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Center, Input, Box, Button, Icon, FormControl } from "native-base";
+import { Center, Input, Button, Icon } from "native-base";
 import PasswordVisibility from "../components/PasswordVisibility";
 import { useDispatch, useSelector } from "react-redux";
 import { signin } from "../redux/slices/authReducer";
@@ -12,6 +12,7 @@ import {
 } from "../redux/selector/authSelector";
 import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
+import FormController from "../components/FormController";
 
 const SigninScreen = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -36,42 +37,38 @@ const SigninScreen = () => {
 
   return (
     <Center flex={1}>
-      <Box style={{ marginBottom: 15 }}>
-        <FormControl isInvalid={authError && authError.status === 404}>
-          <FormControl.Label>Email</FormControl.Label>
-          <Input
-            value={email}
-            onChangeText={setEmail}
-            width="70%"
-            variant="outline"
-            placeholder="Email"
-          />
-          <FormControl.ErrorMessage>
-            {authError?.data?.message}
-          </FormControl.ErrorMessage>
-        </FormControl>
-      </Box>
-      <Box style={{ marginBottom: 15 }}>
-        <FormControl isInvalid={authError && authError.status === 400}>
-          <FormControl.Label>Password</FormControl.Label>
-          <Input
-            value={password}
-            onChangeText={setPassword}
-            type={show ? "text" : "password"}
-            width="70%"
-            variant="outline"
-            placeholder="Password"
-            InputRightElement={
-              <PasswordVisibility show={show} setShow={setShow} />
-            }
-          />
-          <FormControl.ErrorMessage>
-            {authError?.data?.message}
-          </FormControl.ErrorMessage>
-        </FormControl>
-      </Box>
+      <FormController
+        label="Email"
+        message={authError?.message}
+        errorMessageShow={authError?.status === 404}
+      >
+        <Input
+          value={email}
+          onChangeText={setEmail}
+          width="70%"
+          variant="outline"
+          placeholder="Email"
+        />
+      </FormController>
+      <FormController
+        label="Password"
+        message={authError?.message}
+        errorMessageShow={authError?.status === 400}
+      >
+        <Input
+          value={password}
+          onChangeText={setPassword}
+          type={show ? "text" : "password"}
+          width="70%"
+          variant="outline"
+          placeholder="Password"
+          InputRightElement={
+            <PasswordVisibility show={show} setShow={setShow} />
+          }
+        />
+      </FormController>
       <Button
-        disabled={authLoading}
+        isLoading={authLoading}
         leftIcon={<Icon as={Ionicons} name="enter-outline" />}
         colorScheme="green"
         width="60%"
