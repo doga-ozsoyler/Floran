@@ -28,6 +28,7 @@ const Tabs = () => {
     <Tab.Navigator backBehavior="history" screenOptions={tabOptionStyle}>
       <Tab.Screen
         options={{
+          title: "Plants",
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "md-leaf" : "md-leaf-outline"}
@@ -41,6 +42,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         options={{
+          title: "My Plants",
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
               name={focused ? "tree" : "tree-outline"}
@@ -54,6 +56,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         options={{
+          title: "Reminders",
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
               name={focused ? "clock-time-four" : "clock-time-four-outline"}
@@ -67,6 +70,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         options={{
+          title: "Profile",
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               name={focused ? "user-alt" : "user"}
