@@ -1,13 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { AuthState } from "../../types";
+import type { AxiosRequestHeaders } from "axios";
+import { AuthState } from "../types";
 
 const SERVER_URL = "http://192.168.1.2:3939/api";
 
 export const signin = createAsyncThunk(
   "auth/signin",
-  async (signinData, { rejectWithValue }) => {
+  async (
+    signinData: { email: string; password: string },
+    { rejectWithValue }
+  ) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/signin`,
@@ -16,8 +20,11 @@ export const signin = createAsyncThunk(
 
       await AsyncStorege.setItem("Token", JSON.stringify(data));
       return data;
-    } catch (error) {
-      return rejectWithValue(error);
+    } catch (error: any) {
+      return rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
     }
   }
 );
@@ -45,7 +52,8 @@ const authSlice = createSlice({
     });
     builder.addCase(signin.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error;
+      state.error = action.payload;
+      state.signinRes = null;
     });
   },
 });
