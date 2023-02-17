@@ -30,10 +30,10 @@ const Landing = (props: LandingI) => {
             width="60%"
             size="sm"
             onPress={() => {
-              navigation.navigate("Signin");
+              navigation.navigate("Sign in");
             }}
           >
-            Signin
+            Sign in
           </Button>
           <Text color="light.500" bold>
             or
@@ -44,7 +44,7 @@ const Landing = (props: LandingI) => {
             width="60%"
             size="sm"
           >
-            Signup
+            Sign up
           </Button>
         </VStack>
       )}

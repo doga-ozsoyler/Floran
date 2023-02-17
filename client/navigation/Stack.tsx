@@ -37,7 +37,7 @@ const MyPlantStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="My Plants" component={MyPlantsScreen} />
-      <Stack.Screen name="Signin" component={SigninScreen} />
+      <Stack.Screen name="Sign in" component={SigninScreen} />
     </Stack.Navigator>
   );
 };

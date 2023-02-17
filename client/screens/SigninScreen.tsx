@@ -75,7 +75,7 @@ const SigninScreen = () => {
         size="sm"
         onPress={onSignin}
       >
-        Signin
+        Sign in
       </Button>
     </Center>
   );

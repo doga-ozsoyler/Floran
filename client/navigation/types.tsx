@@ -5,7 +5,7 @@ import type { StackNavigationProp } from "@react-navigation/stack";
 export type StackParamList = {
   Plants: undefined;
   "My Plants": undefined;
-  Signin: undefined;
+  "Sign in": undefined;
   Profile: undefined;
   Reminders: undefined;
 };
