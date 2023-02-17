@@ -1,42 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Center, Button, Icon } from "native-base";
-import { useDispatch, useSelector } from "react-redux";
-import { signin } from "../redux/slices/authReducer";
-import { AppDispatch } from "../redux/store";
-import {
-  selectAuthError,
-  selectAuthLoading,
-  selectSigninRes,
-} from "../redux/selector/authSelector";
-import { useNavigation } from "@react-navigation/native";
-import { generalScreenProp } from "../navigation/types";
 import FormController from "../components/InputFormController";
 import PasswordVisibility from "../components/PasswordVisibility";
 
-const SigninScreen = () => {
+const SignupScreen = () => {
   const [show, setShow] = useState<boolean>(false);
+  const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const dispatch = useDispatch<AppDispatch>();
-  const navigation = useNavigation<generalScreenProp>();
-
-  const authLoading = useSelector(selectAuthLoading);
-  const authError = useSelector(selectAuthError);
-  const signinRes = useSelector(selectSigninRes);
-
-  const onSignin = () => {
-    dispatch(signin({ email: email, password: password }));
-  };
-
-  useEffect(() => {
-    if (!authError && signinRes) {
-      navigation.navigate("Plants");
-    }
-  }, [authError]);
 
   return (
     <Center flex={1}>
+      <FormController
+        label="Nickname"
+        message={"Error message"}
+        errorMessageShow={false}
+        value={nickname}
+        onChangeText={setNickname}
+      />
       <FormController
         label="Email"
         message={"Error message"}
@@ -54,17 +36,17 @@ const SigninScreen = () => {
         InputRightElement={<PasswordVisibility show={show} setShow={setShow} />}
       />
       <Button
-        isLoading={authLoading}
+        isLoading={false}
         leftIcon={<Icon as={Ionicons} name="enter-outline" />}
         colorScheme="green"
         width="60%"
         size="sm"
-        onPress={onSignin}
+        onPress={() => console.log("Sign up")}
       >
-        Sign in
+        Sign up
       </Button>
     </Center>
   );
 };
 
-export default SigninScreen;
+export default SignupScreen;

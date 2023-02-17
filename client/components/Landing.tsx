@@ -43,6 +43,9 @@ const Landing = (props: LandingI) => {
             colorScheme="green"
             width="60%"
             size="sm"
+            onPress={() => {
+              navigation.navigate("Sign up");
+            }}
           >
             Sign up
           </Button>

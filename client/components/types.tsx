@@ -9,5 +9,8 @@ export interface FormControllerI {
   label: string;
   message: string;
   errorMessageShow: boolean;
-  children: string | JSX.Element | JSX.Element[];
+  value: string;
+  onChangeText: ((text: string) => void) | undefined;
+  type?: "password" | "text";
+  InputRightElement?: JSX.Element | JSX.Element[];
 }

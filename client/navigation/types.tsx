@@ -6,6 +6,7 @@ export type StackParamList = {
   Plants: undefined;
   "My Plants": undefined;
   "Sign in": undefined;
+  "Sign up": undefined;
   Profile: undefined;
   Reminders: undefined;
 };
