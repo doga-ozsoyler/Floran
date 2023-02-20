@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
 import FormController from "../components/InputFormController";
 import PasswordVisibility from "../components/PasswordVisibility";
+import { validate } from "../helpers/validation";
 
 const SigninScreen = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -25,7 +26,7 @@ const SigninScreen = () => {
   const authError = useSelector(selectAuthError);
   const signinRes = useSelector(selectSigninRes);
 
-  const onSignin = () => {
+  const handleSignin = () => {
     dispatch(signin({ email: email, password: password }));
   };
 
@@ -39,15 +40,15 @@ const SigninScreen = () => {
     <Center flex={1}>
       <FormController
         label="Email"
-        message={"Error message"}
-        errorMessageShow={false}
+        message={authError?.message}
+        errorMessageShow={authError?.status === 404}
         value={email}
         onChangeText={setEmail}
       />
       <FormController
         label="Password"
-        message={"Error message"}
-        errorMessageShow={false}
+        message={authError?.message}
+        errorMessageShow={authError?.status === 400}
         value={password}
         onChangeText={setPassword}
         type={show ? "text" : "password"}
@@ -59,7 +60,7 @@ const SigninScreen = () => {
         colorScheme="green"
         width="60%"
         size="sm"
-        onPress={onSignin}
+        onPress={handleSignin}
       >
         Sign in
       </Button>

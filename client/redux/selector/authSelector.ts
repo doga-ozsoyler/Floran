@@ -15,3 +15,7 @@ export const selectAuthError = (state: RootState) => {
 export const selectSigninRes = (state: RootState) => {
   return state?.auth?.signinRes;
 };
+
+export const selectSignupRes = (state: RootState) => {
+  return state?.auth?.signupRes;
+};
