@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import {
   Box,
@@ -12,9 +12,26 @@ import {
 } from "native-base";
 import { PressablePlantCardI } from "./types";
 import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
+import {
+  selectUserPlants,
+  selectUserUpdate,
+} from "../redux/selector/userSelector";
 
 const PressablePlantCard = (props: PressablePlantCardI) => {
   const { plantData } = props;
+  const [isBelongUser, setIsBelongUser] = useState(false);
+
+  const userPlantsList = useSelector(selectUserPlants);
+  const userIsUpdate = useSelector(selectUserUpdate);
+
+  useEffect(() => {
+    const plantObj = userPlantsList?.find(
+      (userPlant) => userPlant._id === plantData._id
+    );
+
+    setIsBelongUser(plantObj ? true : false);
+  }, [userIsUpdate]);
 
   return (
     <Pressable onPress={() => console.log(plantData._id)}>
@@ -44,11 +61,12 @@ const PressablePlantCard = (props: PressablePlantCardI) => {
 
                 <Button
                   leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}
-                  colorScheme="green"
+                  colorScheme={isBelongUser ? "amber" : "green"}
                   width="60%"
                   size="sm"
+                  onPress={() => console.log(plantData._id)}
                 >
-                  Add My Plants
+                  {isBelongUser ? "Remive My Plants" : "Add My Plants"}
                 </Button>
               </VStack>
             </HStack>

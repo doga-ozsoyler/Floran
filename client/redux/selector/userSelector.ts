@@ -15,3 +15,7 @@ export const selectUserUpdate = (state: RootState) => {
 export const selectUser = (state: RootState) => {
   return state?.user?.userRes;
 };
+
+export const selectUserPlants = (state: RootState) => {
+  return state?.user?.userRes?.user?.plants;
+};
