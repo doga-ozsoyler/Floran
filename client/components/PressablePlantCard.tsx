@@ -10,7 +10,7 @@ import {
   Button,
   Pressable,
 } from "native-base";
-import { PressablePlantCardI } from "../types";
+import { PressablePlantCardI } from "./types";
 import { StyleSheet } from "react-native";
 
 const PressablePlantCard = (props: PressablePlantCardI) => {

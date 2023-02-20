@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { selectToken } from "../redux/selector/authSelector";
 import { useSelector } from "react-redux";
-import { LandingI } from "../types";
+import { LandingI } from "./types";
 import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
 
@@ -17,7 +17,7 @@ const Landing = (props: LandingI) => {
   useEffect(() => {}, []);
   return (
     <Center flex={1}>
-      {false ? (
+      {token ? (
         children
       ) : (
         <VStack alignItems="center" width="100%">

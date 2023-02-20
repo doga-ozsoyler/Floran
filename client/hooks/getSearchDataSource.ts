@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { plantData } from "../types";
+import { plantData } from "../redux/types";
 
 const getSearchDataSource = (search: string, allPlantList: plantData[]) => {
   const [searchedDataSource, setSearchedDataSource] =

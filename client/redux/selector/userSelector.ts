@@ -1,0 +1,17 @@
+import { RootState } from "../store";
+
+export const selectUserLoading = (state: RootState) => {
+  return state?.user?.loading;
+};
+
+export const selectUserError = (state: RootState) => {
+  return state?.user?.error;
+};
+
+export const selectUserUpdate = (state: RootState) => {
+  return state?.user?.isUpdated;
+};
+
+export const selectUser = (state: RootState) => {
+  return state?.user?.userRes;
+};

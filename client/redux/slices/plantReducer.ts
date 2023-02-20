@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { PlantState, allPlantRes } from "../../types";
+import { PlantState, allPlantRes } from "../types";
 
 const SERVER_URL = "http://192.168.1.2:3939/api";
 

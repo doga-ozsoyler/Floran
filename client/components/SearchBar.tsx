@@ -1,7 +1,7 @@
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Box, Input, Icon } from "native-base";
-import { SearchBarI } from "../types";
+import { SearchBarI } from "./types";
 
 const SearchBar = (props: SearchBarI) => {
   const { setSearch } = props;
