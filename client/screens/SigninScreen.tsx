@@ -13,7 +13,6 @@ import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
 import FormController from "../components/InputFormController";
 import PasswordVisibility from "../components/PasswordVisibility";
-import { validate } from "../helpers/validation";
 
 const SigninScreen = () => {
   const [show, setShow] = useState<boolean>(false);

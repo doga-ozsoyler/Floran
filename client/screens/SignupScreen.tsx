@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { Center, Button, Icon } from "native-base";
+import { Center, Button, Icon, useToast } from "native-base";
 import FormController from "../components/InputFormController";
 import PasswordVisibility from "../components/PasswordVisibility";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,47 +9,56 @@ import {
   selectAuthLoading,
   selectSignupRes,
 } from "../redux/selector/authSelector";
-import { useNavigation } from "@react-navigation/native";
-import { generalScreenProp } from "../navigation/types";
 import { signup } from "../redux/slices/authReducer";
 import { AppDispatch } from "../redux/store";
-import { validateEmail } from "../helpers/validation";
+import { validateEmail, validatePassword } from "../helpers/validation";
 
 const SignupScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const toast = useToast();
   const [show, setShow] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [emailValidation, setEmailValidation] = useState<boolean>(true);
   const [password, setPassword] = useState<string>("");
   const [passwordValidation, setPasswordValidation] = useState<boolean>(true);
-  const navigation = useNavigation<generalScreenProp>();
 
   const authLoading = useSelector(selectAuthLoading);
   const authError = useSelector(selectAuthError);
   const signupRes = useSelector(selectSignupRes);
 
   const handleSignup = () => {
-    dispatch(signup({ nickname: nickname, email: email, password: password }));
+    if (emailValidation && passwordValidation) {
+      dispatch(
+        signup({ nickname: nickname, email: email, password: password })
+      );
+    }
   };
 
   const onChangeEmail = (text: string) => {
     setEmailValidation(validateEmail(text));
     setEmail(text);
   };
+  const onChangePassword = (text: string) => {
+    setPasswordValidation(validatePassword(text));
+    setPassword(text);
+  };
 
   useEffect(() => {
     if (!authError && signupRes) {
-      navigation.navigate("Sign in");
+      toast.show({
+        description: signupRes.message,
+        duration: 3000,
+      });
     }
-  }, [authError]);
+  }, [authError, signupRes]);
 
   return (
     <Center flex={1}>
       <FormController
         label="Nickname"
         message={authError?.message}
-        errorMessageShow={authError.status === 400 && !nickname}
+        errorMessageShow={authError?.status === 400 && !nickname}
         value={nickname}
         onChangeText={setNickname}
       />
@@ -57,8 +66,8 @@ const SignupScreen = () => {
         label="Email"
         message={emailValidation ? authError?.message : "Email is Not Correct!"}
         errorMessageShow={
-          (authError.status === 400 && !email) ||
-          authError.status === 404 ||
+          (authError?.status === 400 && !email) ||
+          authError?.status === 404 ||
           !emailValidation
         }
         value={email}
@@ -66,10 +75,16 @@ const SignupScreen = () => {
       />
       <FormController
         label="Password"
-        message={authError?.message}
-        errorMessageShow={authError.status === 400 && !password}
+        message={
+          passwordValidation
+            ? authError?.message
+            : "Atleast 6 characters are required."
+        }
+        errorMessageShow={
+          (authError?.status === 400 && !password) || !passwordValidation
+        }
         value={password}
-        onChangeText={setPassword}
+        onChangeText={onChangePassword}
         type={show ? "text" : "password"}
         InputRightElement={<PasswordVisibility show={show} setShow={setShow} />}
       />
