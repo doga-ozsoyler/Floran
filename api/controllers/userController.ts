@@ -3,7 +3,7 @@ import { IReqAuth } from "../config/interface";
 import { User } from "../models/user";
 import bcrypt from "bcrypt";
 import { Reminder } from "../models/reminder";
-import { getOrSetCache } from "../utils/redis";
+import { deleteKeyInCache, getOrSetCache } from "../utils/redis";
 
 export const getUserController: RequestHandler = async (
   req: IReqAuth,
@@ -101,12 +101,14 @@ export const ownPlantUserController: RequestHandler = async (
     const user = await User.findById(req.user._id);
     if (user && !user.plants.includes(req.body.plantID)) {
       await user.updateOne({ $push: { plants: req.body.plantID } });
+      deleteKeyInCache(`user${req.user._id}`);
       res.status(200).json({
         success: true,
         message: "Plant is successfully added plants list!",
       });
     } else if (user) {
       await user.updateOne({ $pull: { plants: req.body.plantID } });
+      deleteKeyInCache(`user${req.user._id}`);
       res.status(200).json({
         success: true,
         message: "Plant is successfully outed plants list!",
