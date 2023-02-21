@@ -21,13 +21,12 @@ const MyPlantsScreen = () => {
 
   const searchedDataSource = getSearchDataSource(
     search,
+    [userPlantsList?.length],
     userPlantsList ? userPlantsList : []
   );
 
   useEffect(() => {
     dispatch(fetchUser());
-
-    return () => {};
   }, [userIsUpdate]);
 
   return (

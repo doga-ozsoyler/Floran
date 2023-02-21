@@ -20,6 +20,7 @@ const AllPlantsScreen: FC = () => {
 
   const searchedDataSource = getSearchDataSource(
     search,
+    [plantIsUpdate],
     allPlantList ? allPlantList : []
   );
 

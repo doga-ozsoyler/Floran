@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { plantData } from "../redux/types";
 
-const getSearchDataSource = (search: string, allPlantList: plantData[]) => {
+const getSearchDataSource = (
+  search: string,
+  isUpdate: any[],
+  allPlantList: plantData[]
+) => {
   const [searchedDataSource, setSearchedDataSource] =
     useState<plantData[]>(allPlantList);
 
   useEffect(() => {
-    const filteredPlants = allPlantList.filter(function (item) {
+    const filteredPlants = allPlantList?.filter(function (item) {
       //search
       const itemData = item.name.toUpperCase();
       const textData = search.toUpperCase();
@@ -15,7 +19,7 @@ const getSearchDataSource = (search: string, allPlantList: plantData[]) => {
     });
 
     setSearchedDataSource(filteredPlants ? filteredPlants : []);
-  }, [search]);
+  }, [search, ...isUpdate]);
 
   return searchedDataSource;
 };
