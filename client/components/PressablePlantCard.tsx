@@ -12,18 +12,17 @@ import {
 } from "native-base";
 import { PressablePlantCardI } from "./types";
 import { StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
-import {
-  selectUserPlants,
-  selectUserUpdate,
-} from "../redux/selector/userSelector";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserPlants } from "../redux/selector/userSelector";
+import { ownPlant } from "../redux/slices/userReducer";
+import { AppDispatch } from "../redux/store";
 
 const PressablePlantCard = (props: PressablePlantCardI) => {
   const { plantData } = props;
+  const dispatch = useDispatch<AppDispatch>();
   const [isBelongUser, setIsBelongUser] = useState(false);
 
   const userPlantsList = useSelector(selectUserPlants);
-  const userIsUpdate = useSelector(selectUserUpdate);
 
   useEffect(() => {
     const plantObj = userPlantsList?.find(
@@ -31,7 +30,7 @@ const PressablePlantCard = (props: PressablePlantCardI) => {
     );
 
     setIsBelongUser(plantObj ? true : false);
-  }, [userIsUpdate]);
+  }, []);
 
   return (
     <Pressable onPress={() => console.log(plantData._id)}>
@@ -64,7 +63,10 @@ const PressablePlantCard = (props: PressablePlantCardI) => {
                   colorScheme={isBelongUser ? "amber" : "green"}
                   width="60%"
                   size="sm"
-                  onPress={() => console.log(plantData._id)}
+                  onPress={() => {
+                    dispatch(ownPlant(plantData._id));
+                    setIsBelongUser(!isBelongUser);
+                  }}
                 >
                   {isBelongUser ? "Remive My Plants" : "Add My Plants"}
                 </Button>
