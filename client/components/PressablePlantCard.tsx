@@ -16,10 +16,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUserPlants } from "../redux/selector/userSelector";
 import { ownPlant } from "../redux/slices/userReducer";
 import { AppDispatch } from "../redux/store";
+import { useNavigation } from "@react-navigation/native";
+import { generalScreenProp } from "../navigation/types";
 
 const PressablePlantCard = (props: PressablePlantCardI) => {
   const { plantData } = props;
   const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigation<generalScreenProp>();
   const [isBelongUser, setIsBelongUser] = useState(false);
 
   const userPlantsList = useSelector(selectUserPlants);
@@ -33,7 +36,9 @@ const PressablePlantCard = (props: PressablePlantCardI) => {
   }, []);
 
   return (
-    <Pressable onPress={() => console.log(plantData._id)}>
+    <Pressable
+      onPress={() => navigation.navigate("Plant", { plantID: plantData._id })}
+    >
       {({ isPressed }) => {
         return (
           <Box
