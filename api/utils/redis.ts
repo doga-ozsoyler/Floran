@@ -20,3 +20,7 @@ export const getOrSetCache = async (
     });
   });
 };
+
+export const deleteKeyInCache = async (key: string) => {
+  redisClient.del(key);
+};

@@ -347,7 +347,7 @@ describe("DELETE - /user/delete", () => {
       .send({ email: dummyUser.email, password: dummyUser.password });
     expect(trySignin.body).toEqual({
       success: false,
-      message: "User doesn't exist",
+      message: "Email doesn't exist",
     });
     expect(plant.body).toEqual(
       expect.objectContaining({

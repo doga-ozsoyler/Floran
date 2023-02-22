@@ -45,7 +45,7 @@ export const signinController: RequestHandler = async (
     if (!user)
       return res
         .status(404)
-        .json({ success: false, message: "User doesn't exist" });
+        .json({ success: false, message: "Email doesn't exist" });
 
     const passwordIsValid = bcrypt.compareSync(
       req?.body?.password,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import {
   Box,
@@ -10,11 +10,27 @@ import {
   Button,
   Pressable,
 } from "native-base";
-import { PressablePlantCardI } from "../types";
+import { PressablePlantCardI } from "./types";
 import { StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserPlants } from "../redux/selector/userSelector";
+import { ownPlant } from "../redux/slices/userReducer";
+import { AppDispatch } from "../redux/store";
 
 const PressablePlantCard = (props: PressablePlantCardI) => {
   const { plantData } = props;
+  const dispatch = useDispatch<AppDispatch>();
+  const [isBelongUser, setIsBelongUser] = useState(false);
+
+  const userPlantsList = useSelector(selectUserPlants);
+
+  useEffect(() => {
+    const plantObj = userPlantsList?.find(
+      (userPlant) => userPlant._id === plantData._id
+    );
+
+    setIsBelongUser(plantObj ? true : false);
+  }, []);
 
   return (
     <Pressable onPress={() => console.log(plantData._id)}>
@@ -44,11 +60,15 @@ const PressablePlantCard = (props: PressablePlantCardI) => {
 
                 <Button
                   leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}
-                  colorScheme="green"
+                  colorScheme={isBelongUser ? "amber" : "green"}
                   width="60%"
                   size="sm"
+                  onPress={() => {
+                    dispatch(ownPlant(plantData._id));
+                    setIsBelongUser(!isBelongUser);
+                  }}
                 >
-                  Add My Plants
+                  {isBelongUser ? "Remive My Plants" : "Add My Plants"}
                 </Button>
               </VStack>
             </HStack>

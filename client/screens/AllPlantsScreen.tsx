@@ -1,22 +1,26 @@
 import React, { FC, useEffect, useState } from "react";
 import { Center, FlatList } from "native-base";
-import { AppDispatch, RootState } from "../redux/store";
+import { AppDispatch } from "../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllPlant } from "../redux/slices/plantReducer";
 import getSearchDataSource from "../hooks/getSearchDataSource";
 import SearchBar from "../components/SearchBar";
 import PressablePlantCard from "../components/PressablePlantCard";
+import {
+  selectAllPlant,
+  selectPlantUpdate,
+} from "../redux/selector/plantsSelector";
 
 const AllPlantsScreen: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [search, setSearch] = useState<string>(() => "");
 
-  const allPlantList = useSelector((state: RootState) => {
-    return state.plant.allPlantRes?.allPlant;
-  });
+  const allPlantList = useSelector(selectAllPlant);
+  const plantIsUpdate = useSelector(selectPlantUpdate);
 
   const searchedDataSource = getSearchDataSource(
     search,
+    [plantIsUpdate],
     allPlantList ? allPlantList : []
   );
 
@@ -24,7 +28,7 @@ const AllPlantsScreen: FC = () => {
     dispatch(fetchAllPlant());
 
     return () => {};
-  }, []);
+  }, [plantIsUpdate]);
 
   return (
     <Center bg="coolGray.50" flex={1}>

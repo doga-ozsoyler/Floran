@@ -58,7 +58,10 @@ describe("Auth Controllers", () => {
       password: faker.internet.password(),
     });
 
-    expect(res.body).toEqual({ success: false, message: "User doesn't exist" });
+    expect(res.body).toEqual({
+      success: false,
+      message: "Email doesn't exist",
+    });
     expect(res.statusCode).toBe(404);
   });
 
