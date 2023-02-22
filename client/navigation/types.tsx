@@ -9,6 +9,7 @@ export type StackParamList = {
   "Sign up": undefined;
   Profile: undefined;
   Reminders: undefined;
+  Plant: { plantID: string };
 };
 
 export type TabParamList = {
