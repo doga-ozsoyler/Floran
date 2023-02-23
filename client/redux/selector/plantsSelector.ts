@@ -15,3 +15,7 @@ export const selectPlantUpdate = (state: RootState) => {
 export const selectAllPlant = (state: RootState) => {
   return state?.plant?.allPlantRes?.allPlant;
 };
+
+export const selectPlant = (state: RootState) => {
+  return state?.plant?.plantData?.plant;
+};
