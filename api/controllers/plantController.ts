@@ -122,11 +122,7 @@ export const getPlantController: RequestHandler = async (
   try {
     const { plantID } = req?.params;
 
-    const plant = await getOrSetCache("plant", async () => {
-      const plant = await Plant.findById(plantID);
-
-      return plant;
-    });
+    const plant = await Plant.findById(plantID);
 
     res.status(200).json({
       success: false,
