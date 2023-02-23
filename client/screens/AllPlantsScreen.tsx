@@ -28,7 +28,7 @@ const AllPlantsScreen: FC = () => {
     dispatch(fetchAllPlant());
 
     return () => {};
-  }, [plantIsUpdate]);
+  }, [dispatch, plantIsUpdate]);
 
   return (
     <Center bg="coolGray.50" flex={1}>
