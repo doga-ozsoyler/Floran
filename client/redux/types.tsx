@@ -41,6 +41,10 @@ export interface plantData {
   petFriendly: boolean;
   picture: string;
   sunExposure: number;
+  whenToWater: {
+    min: number;
+    max: number;
+  };
 }
 
 export interface UserRes {

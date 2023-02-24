@@ -1,6 +1,8 @@
 import type { CompositeNavigationProp } from "@react-navigation/native";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import type { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+import { PlantScreenI } from "../screens/types";
 
 export type StackParamList = {
   Plants: undefined;
@@ -9,7 +11,7 @@ export type StackParamList = {
   "Sign up": undefined;
   Profile: undefined;
   Reminders: undefined;
-  Plant: { plantID: string };
+  Plant: PlantScreenI;
 };
 
 export type TabParamList = {
