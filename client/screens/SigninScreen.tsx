@@ -8,6 +8,7 @@ import {
   selectAuthError,
   selectAuthLoading,
   selectSigninRes,
+  selectToken,
 } from "../redux/selector/authSelector";
 import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
@@ -24,6 +25,7 @@ const SigninScreen = () => {
   const authLoading = useSelector(selectAuthLoading);
   const authError = useSelector(selectAuthError);
   const signinRes = useSelector(selectSigninRes);
+  const token = useSelector(selectToken);
 
   const handleSignin = () => {
     dispatch(signin({ email: email, password: password }));
@@ -33,7 +35,7 @@ const SigninScreen = () => {
     if (!authError && signinRes) {
       navigation.navigate("Plants");
     }
-  }, [authError]);
+  }, [token]);
 
   return (
     <Center flex={1}>
