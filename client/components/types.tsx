@@ -27,3 +27,7 @@ export interface PressablePlantCardI {
 export interface LandingI {
   children: string | JSX.Element | JSX.Element[];
 }
+
+export interface AddRemovePlantButtonI {
+  plantID?: string;
+}

@@ -16,6 +16,7 @@ import { fetchPlant } from "../redux/slices/plantReducer";
 import { AppDispatch } from "../redux/store";
 import { selectPlant } from "../redux/selector/plantsSelector";
 import { fertilizer, sunExposureValue } from "../helpers/constants";
+import AddRemovePlantButton from "../components/addRemovePlantButton";
 
 const PlantScreen = (props: PlantScreenI) => {
   const plantID = props?.route?.params?.plantID;
@@ -84,15 +85,7 @@ const PlantScreen = (props: PlantScreenI) => {
             {plant?.fertilizer ? fertilizer[plant?.fertilizer] : fertilizer[0]}
           </Text>
           <Box w="100%" alignItems="center" mt={3}>
-            <Button
-              leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}
-              colorScheme={"green"}
-              width="60%"
-              size="sm"
-              onPress={() => console.log("own plant")}
-            >
-              Add My Plants
-            </Button>
+            <AddRemovePlantButton plantID={plantID} />
           </Box>
           <Box w="100%" alignItems="center" mt={3}>
             <Button

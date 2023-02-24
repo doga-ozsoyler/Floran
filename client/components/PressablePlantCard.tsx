@@ -18,22 +18,11 @@ import { ownPlant } from "../redux/slices/userReducer";
 import { AppDispatch } from "../redux/store";
 import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
+import AddRemovePlantButton from "./addRemovePlantButton";
 
 const PressablePlantCard = (props: PressablePlantCardI) => {
   const { plantData } = props;
-  const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigation<generalScreenProp>();
-  const [isBelongUser, setIsBelongUser] = useState(false);
-
-  const userPlantsList = useSelector(selectUserPlants);
-
-  useEffect(() => {
-    const plantObj = userPlantsList?.find(
-      (userPlant) => userPlant._id === plantData._id
-    );
-
-    setIsBelongUser(plantObj ? true : false);
-  }, []);
 
   return (
     <Pressable
@@ -63,18 +52,7 @@ const PressablePlantCard = (props: PressablePlantCardI) => {
               <VStack justifyContent="space-between" m="10px" width="100%">
                 <Heading bold>{plantData.name}</Heading>
 
-                <Button
-                  leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}
-                  colorScheme={isBelongUser ? "amber" : "green"}
-                  width="60%"
-                  size="sm"
-                  onPress={() => {
-                    dispatch(ownPlant(plantData._id));
-                    setIsBelongUser(!isBelongUser);
-                  }}
-                >
-                  {isBelongUser ? "Remive My Plants" : "Add My Plants"}
-                </Button>
+                <AddRemovePlantButton plantID={plantData._id} />
               </VStack>
             </HStack>
           </Box>
