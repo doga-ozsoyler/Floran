@@ -2,13 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { PlantState, allPlantRes, PlantRes } from "../types";
 
-const SERVER_URL = "http://192.168.1.2:3939/api";
+const SERVER_URL = "http://192.168.1.4:3939/api";
 
 export const fetchAllPlant = createAsyncThunk<allPlantRes>(
   "plant/fetchAllPlant",
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`${SERVER_URL}/plant/all`);
+      console.log(data);
 
       return data;
     } catch (error) {
