@@ -14,6 +14,7 @@ import RemindersScreen from "../screens/RemindersScreen";
 import SigninScreen from "../screens/SigninScreen";
 import { StackParamList } from "./types";
 import SignupScreen from "../screens/SignupScreen";
+import PlantScreen from "../screens/PlantScreen";
 
 const Stack = createStackNavigator<StackParamList>();
 
@@ -30,6 +31,7 @@ const AllPlantsStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="Plants" component={AllPlantsScreen} />
+      <Stack.Screen name="Plant" component={PlantScreen} />
     </Stack.Navigator>
   );
 };

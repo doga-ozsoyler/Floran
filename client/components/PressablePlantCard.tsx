@@ -1,39 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Feather } from "@expo/vector-icons";
-import {
-  Box,
-  Image,
-  HStack,
-  VStack,
-  Heading,
-  Icon,
-  Button,
-  Pressable,
-} from "native-base";
+import React from "react";
+import { Box, Image, HStack, VStack, Heading, Pressable } from "native-base";
 import { PressablePlantCardI } from "./types";
 import { StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUserPlants } from "../redux/selector/userSelector";
-import { ownPlant } from "../redux/slices/userReducer";
-import { AppDispatch } from "../redux/store";
+import { useNavigation } from "@react-navigation/native";
+import { generalScreenProp } from "../navigation/types";
+import AddRemovePlantButton from "./AddRemovePlantButton";
 
 const PressablePlantCard = (props: PressablePlantCardI) => {
   const { plantData } = props;
-  const dispatch = useDispatch<AppDispatch>();
-  const [isBelongUser, setIsBelongUser] = useState(false);
-
-  const userPlantsList = useSelector(selectUserPlants);
-
-  useEffect(() => {
-    const plantObj = userPlantsList?.find(
-      (userPlant) => userPlant._id === plantData._id
-    );
-
-    setIsBelongUser(plantObj ? true : false);
-  }, []);
+  const navigation = useNavigation<generalScreenProp>();
 
   return (
-    <Pressable onPress={() => console.log(plantData._id)}>
+    <Pressable
+      onPress={() => navigation.navigate("Plant", { plantID: plantData._id })}
+    >
       {({ isPressed }) => {
         return (
           <Box
@@ -58,18 +38,7 @@ const PressablePlantCard = (props: PressablePlantCardI) => {
               <VStack justifyContent="space-between" m="10px" width="100%">
                 <Heading bold>{plantData.name}</Heading>
 
-                <Button
-                  leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}
-                  colorScheme={isBelongUser ? "amber" : "green"}
-                  width="60%"
-                  size="sm"
-                  onPress={() => {
-                    dispatch(ownPlant(plantData._id));
-                    setIsBelongUser(!isBelongUser);
-                  }}
-                >
-                  {isBelongUser ? "Remive My Plants" : "Add My Plants"}
-                </Button>
+                <AddRemovePlantButton plantID={plantData._id} />
               </VStack>
             </HStack>
           </Box>

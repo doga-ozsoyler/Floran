@@ -1,15 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { PlantState, allPlantRes } from "../types";
+import { PlantState, allPlantRes, PlantRes } from "../types";
 
-const SERVER_URL = "http://192.168.1.2:3939/api";
+const SERVER_URL = "http://192.168.1.4:3939/api";
 
 export const fetchAllPlant = createAsyncThunk<allPlantRes>(
   "plant/fetchAllPlant",
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`${SERVER_URL}/plant/all`);
+      console.log(data);
 
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchPlant = createAsyncThunk(
+  "plant/fetchPlant",
+  async (plantID: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${SERVER_URL}/plant/get/${plantID}`);
+      console.log("data");
+      console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -39,6 +54,18 @@ const plantSlice = createSlice({
       state.allPlantRes = action?.payload;
     });
     builder.addCase(fetchAllPlant.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    builder.addCase(fetchPlant.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchPlant.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.plantData = action?.payload;
+    });
+    builder.addCase(fetchPlant.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });

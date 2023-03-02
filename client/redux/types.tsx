@@ -41,6 +41,10 @@ export interface plantData {
   petFriendly: boolean;
   picture: string;
   sunExposure: number;
+  whenToWater: {
+    min: number;
+    max: number;
+  };
 }
 
 export interface UserRes {
@@ -73,5 +77,11 @@ export interface PlantState {
   error: any;
   isUpdated: boolean;
   allPlantRes: allPlantRes | null;
-  plantData: {} | null;
+  plantData: PlantRes | null;
+}
+
+export interface PlantRes {
+  plant?: plantData;
+  message: string;
+  success: boolean;
 }

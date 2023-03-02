@@ -3,7 +3,7 @@ import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { AuthState, AuthSigninProps, AuthSignupProps } from "../types";
 
-const SERVER_URL = "http://192.168.1.2:3939/api";
+const SERVER_URL = "http://192.168.1.4:3939/api";
 
 export const signin = createAsyncThunk(
   "auth/signin",

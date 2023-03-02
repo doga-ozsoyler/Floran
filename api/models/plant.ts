@@ -3,7 +3,7 @@ import { IPlant } from "../config/interface";
 
 const PlantSchema = new mongoose.Schema({
   name: { type: String, require: true },
-  whenToWater: { type: Number, require: true },
+  whenToWater: { min: { type: Number }, max: { type: Number } },
   petFriendly: { type: Boolean, require: true },
   sunExposure: { type: Number, require: true },
   fertilizer: { type: Number, require: true },
