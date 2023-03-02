@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Feather } from "@expo/vector-icons";
-import {
-  Box,
-  Image,
-  HStack,
-  VStack,
-  Heading,
-  Icon,
-  Button,
-  Pressable,
-} from "native-base";
+import React from "react";
+import { Box, Image, HStack, VStack, Heading, Pressable } from "native-base";
 import { PressablePlantCardI } from "./types";
 import { StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUserPlants } from "../redux/selector/userSelector";
-import { ownPlant } from "../redux/slices/userReducer";
-import { AppDispatch } from "../redux/store";
 import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
-import AddRemovePlantButton from "./addRemovePlantButton";
+import AddRemovePlantButton from "./AddRemovePlantButton";
 
 const PressablePlantCard = (props: PressablePlantCardI) => {
   const { plantData } = props;
