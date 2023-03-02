@@ -1,15 +1,6 @@
 import React, { useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import {
-  Center,
-  Heading,
-  Box,
-  Image,
-  Text,
-  Progress,
-  Button,
-  Icon,
-} from "native-base";
+import { Center, Heading, Box, Image, Button, Icon } from "native-base";
 import { PlantScreenI } from "./types";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPlant } from "../redux/slices/plantReducer";
@@ -20,6 +11,8 @@ import AddRemovePlantButton from "../components/AddRemovePlantButton";
 import { selectToken } from "../redux/selector/authSelector";
 import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
+import ValueBar from "../components/ValueBar";
+import InfoHeaderText from "../components/InfoHeaderText";
 
 const PlantScreen = (props: PlantScreenI) => {
   const plantID = props?.route?.params?.plantID;
@@ -34,15 +27,6 @@ const PlantScreen = (props: PlantScreenI) => {
   return (
     <Center flex={1}>
       <Image
-        style={{
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.23,
-          shadowRadius: 2.62,
-        }}
         borderRadius="md"
         size="2xl"
         alt="Leaf"
@@ -68,27 +52,24 @@ const PlantScreen = (props: PlantScreenI) => {
         m="5px"
       >
         <Box w="90%">
-          <Heading>Pet Friendly</Heading>
-          <Text mb={3} marginLeft={8}>
-            {plant?.petFriendly ? "Yes" : "No"}
-          </Text>
-          <Heading>Water</Heading>
-          <Text
-            mb={3}
-            marginLeft={8}
-          >{`Every ${plant?.whenToWater?.min}-${plant?.whenToWater?.max} Days`}</Text>
-          <Heading>Sun Exposure</Heading>
-          <Progress colorScheme="orange" value={plant?.sunExposure} />
-          <Text mb={3} bold alignSelf="center">
-            {plant?.sunExposure
-              ? sunExposureValue[plant?.sunExposure]
-              : sunExposureValue[0]}
-          </Text>
-          <Heading>Fertilizer</Heading>
-          <Progress colorScheme="yellow" value={plant?.fertilizer} />
-          <Text mb={3} bold alignSelf="center">
-            {plant?.fertilizer ? fertilizer[plant?.fertilizer] : fertilizer[0]}
-          </Text>
+          <InfoHeaderText
+            header="Pet Friendly"
+            text={plant?.petFriendly ? "Yes" : "No"}
+          />
+          <InfoHeaderText
+            header="Water"
+            text={`Every ${plant?.whenToWater?.min}-${plant?.whenToWater?.max} Days`}
+          />
+          <ValueBar
+            header="Sun Exposure"
+            value={plant?.sunExposure}
+            valueObject={sunExposureValue}
+          />
+          <ValueBar
+            header="Fertilizer"
+            value={plant?.fertilizer}
+            valueObject={fertilizer}
+          />
           <Box w="100%" alignItems="center" mt={3}>
             <AddRemovePlantButton plantID={plantID} />
           </Box>

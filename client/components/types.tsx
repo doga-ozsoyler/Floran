@@ -31,3 +31,13 @@ export interface LandingI {
 export interface AddRemovePlantButtonI {
   plantID?: string;
 }
+
+export interface ValueBarI {
+  header: string;
+  value?: number;
+  valueObject: { [key: number]: string };
+}
+export interface InfoHeaderTextI {
+  header: string;
+  text: string;
+}
