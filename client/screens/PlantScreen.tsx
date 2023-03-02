@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   Center,
   Heading,
@@ -16,12 +16,17 @@ import { fetchPlant } from "../redux/slices/plantReducer";
 import { AppDispatch } from "../redux/store";
 import { selectPlant } from "../redux/selector/plantsSelector";
 import { fertilizer, sunExposureValue } from "../helpers/constants";
-import AddRemovePlantButton from "../components/addRemovePlantButton";
+import AddRemovePlantButton from "../components/AddRemovePlantButton";
+import { selectToken } from "../redux/selector/authSelector";
+import { useNavigation } from "@react-navigation/native";
+import { generalScreenProp } from "../navigation/types";
 
 const PlantScreen = (props: PlantScreenI) => {
   const plantID = props?.route?.params?.plantID;
+  const navigation = useNavigation<generalScreenProp>();
   const dispatch = useDispatch<AppDispatch>();
   const plant = useSelector(selectPlant);
+  const token = useSelector(selectToken);
 
   useEffect(() => {
     if (plantID) dispatch(fetchPlant(plantID));
@@ -99,7 +104,13 @@ const PlantScreen = (props: PlantScreenI) => {
               colorScheme={"green"}
               width="60%"
               size="sm"
-              onPress={() => console.log("own plant")}
+              onPress={() => {
+                if (token) {
+                  console.log("own plant");
+                } else {
+                  navigation.navigate("Sign in");
+                }
+              }}
             >
               Add Reminders
             </Button>

@@ -10,14 +10,19 @@ import { ownPlant } from "../redux/slices/userReducer";
 import { AppDispatch } from "../redux/store";
 import { fetchUser } from "../redux/slices/userReducer";
 import { AddRemovePlantButtonI } from "./types";
+import { selectToken } from "../redux/selector/authSelector";
+import { useNavigation } from "@react-navigation/native";
+import { generalScreenProp } from "../navigation/types";
 
 const AddRemovePlantButton = (props: AddRemovePlantButtonI) => {
   const { plantID } = props;
   const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigation<generalScreenProp>();
   const [isBelongUser, setIsBelongUser] = useState(false);
 
   const userPlantsList = useSelector(selectUserPlants);
   const userIsUpdate = useSelector(selectUserUpdate);
+  const token = useSelector(selectToken);
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -37,8 +42,12 @@ const AddRemovePlantButton = (props: AddRemovePlantButtonI) => {
       width="60%"
       size="sm"
       onPress={() => {
-        dispatch(ownPlant(plantID ? plantID : ""));
-        setIsBelongUser(!isBelongUser);
+        if (token) {
+          dispatch(ownPlant(plantID ? plantID : ""));
+          setIsBelongUser(!isBelongUser);
+        } else {
+          navigation.navigate("Sign in");
+        }
       }}
     >
       {isBelongUser ? "Remive My Plants" : "Add My Plants"}
