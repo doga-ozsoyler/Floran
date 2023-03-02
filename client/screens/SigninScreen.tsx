@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Center, Button, Icon } from "native-base";
+import { Center, Button, Icon, Text } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 import { signin } from "../redux/slices/authReducer";
 import { AppDispatch } from "../redux/store";
@@ -64,6 +64,14 @@ const SigninScreen = () => {
         onPress={handleSignin}
       >
         Sign in
+      </Button>
+      <Button
+        variant="link"
+        onPress={() => {
+          navigation.navigate("Sign up");
+        }}
+      >
+        Don't have an account?
       </Button>
     </Center>
   );
