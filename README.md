@@ -247,7 +247,7 @@ Floran is an application to track plant watering.
 
 ## Tech Stack
 
-**Client:** 
+**Client:** React Native, Redux Toolkit, AsyncStorage, React Navigation and TypeScript.
 
 **Server:** Node, Typescript, Express, Mongoose, Ioredis, Jsonwebtoken, Bcrypt, Mongodb
 
