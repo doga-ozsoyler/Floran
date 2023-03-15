@@ -3,7 +3,7 @@ import axios from "axios";
 import { UserRes, UserState } from "../types";
 import { RootState } from "../store";
 
-const SERVER_URL = "http://192.168.1.4:3939/api";
+const SERVER_URL = "http://192.168.100.89:3939/api";
 const updatedUser = createAction("user/update");
 
 export const fetchUser = createAsyncThunk<UserRes>(

@@ -40,8 +40,6 @@ const MyPlantStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="My Plants" component={MyPlantsScreen} />
-      <Stack.Screen name="Sign in" component={SigninScreen} />
-      <Stack.Screen name="Sign up" component={SignupScreen} />
     </Stack.Navigator>
   );
 };
@@ -50,6 +48,8 @@ const ProfileStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Sign in" component={SigninScreen} />
+      <Stack.Screen name="Sign up" component={SignupScreen} />
     </Stack.Navigator>
   );
 };
