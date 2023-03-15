@@ -13,6 +13,9 @@ const Landing = (props: LandingI) => {
   const navigation = useNavigation<generalScreenProp>();
 
   const token = useSelector(selectToken);
+  console.log("token");
+  console.log(token);
+  console.log("token");
 
   useEffect(() => {}, []);
   return (
@@ -30,7 +33,9 @@ const Landing = (props: LandingI) => {
             width="60%"
             size="sm"
             onPress={() => {
-              navigation.navigate("Sign in");
+              navigation.navigate("ProfileTab", {
+                screen: "Sign in",
+              });
             }}
           >
             Sign in
