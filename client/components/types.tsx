@@ -24,10 +24,6 @@ export interface PressablePlantCardI {
   plantData: plantData;
 }
 
-export interface LandingI {
-  children: string | JSX.Element | JSX.Element[];
-}
-
 export interface AddRemovePlantButtonI {
   plantID?: string;
 }
@@ -40,4 +36,15 @@ export interface ValueBarI {
 export interface InfoHeaderTextI {
   header: string;
   text: string;
+}
+
+export interface BasicButtonI {
+  iconLib: any;
+  iconName: string;
+  onPress: () => void;
+  discription: string;
+}
+
+export interface ChildrenI {
+  children: string | JSX.Element | JSX.Element[];
 }

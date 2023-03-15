@@ -4,11 +4,11 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { selectToken } from "../redux/selector/authSelector";
 import { useSelector } from "react-redux";
-import { LandingI } from "./types";
+import { ChildrenI } from "./types";
 import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
 
-const Landing = (props: LandingI) => {
+const Landing = (props: ChildrenI) => {
   const { children } = props;
   const navigation = useNavigation<generalScreenProp>();
 
