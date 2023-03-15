@@ -8,9 +8,12 @@ import { fetchUser } from "../redux/slices/userReducer";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import BasicButton from "../components/BasicButton";
 import BoxWithShadow from "../components/BoxWithShadow";
+import { useNavigation } from "@react-navigation/native";
+import { generalScreenProp } from "../navigation/types";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigation<generalScreenProp>();
   const user = useSelector(selectUser);
 
   useEffect(() => {
@@ -36,8 +39,8 @@ const ProfileScreen = () => {
         <BasicButton
           iconLib={Ionicons}
           iconName="md-leaf-outline"
-          onPress={() => console.log("See Plants You Add")}
-          discription="See Plants You Add"
+          onPress={() => navigation.navigate("Plants You Add")}
+          discription="Plants You Add"
         />
       </BoxWithShadow>
     </Landing>
