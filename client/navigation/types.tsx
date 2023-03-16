@@ -11,6 +11,7 @@ export type StackParamList = {
   Profile: undefined;
   Reminders: undefined;
   Plant: PlantScreenI;
+  "Plants You Add": undefined;
 };
 
 export type TabParamList = {

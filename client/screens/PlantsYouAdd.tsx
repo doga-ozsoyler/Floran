@@ -1,26 +1,26 @@
 import React from "react";
-import Landing from "../components/Landing";
+import { Center } from "native-base";
 import { useSelector } from "react-redux";
-import { fetchUser } from "../redux/slices/userReducer";
 import {
-  selectUserPlants,
+  selectPlantsUserAdd,
   selectUserUpdate,
 } from "../redux/selector/userSelector";
+import { fetchUser } from "../redux/slices/userReducer";
 import PlantList from "../components/PlantList";
 
-const MyPlantsScreen = () => {
-  const userPlantsList = useSelector(selectUserPlants);
+const PlantsYouAdd = () => {
+  const plantsUserAdd = useSelector(selectPlantsUserAdd);
   const userIsUpdate = useSelector(selectUserUpdate);
 
   return (
-    <Landing>
+    <Center flex={1}>
       <PlantList
         isUpdate={userIsUpdate}
-        list={userPlantsList}
+        list={plantsUserAdd}
         fetchAction={fetchUser()}
       />
-    </Landing>
+    </Center>
   );
 };
 
-export default MyPlantsScreen;
+export default PlantsYouAdd;
