@@ -1,5 +1,6 @@
+import { AsyncThunkAction, AsyncThunkPayloadCreator } from "@reduxjs/toolkit";
 import { Dispatch, SetStateAction } from "react";
-import { plantData } from "../redux/types";
+import { plantData, UserRes } from "../redux/types";
 
 export interface PasswordVisibilityI {
   show: boolean;
@@ -47,4 +48,10 @@ export interface BasicButtonI {
 
 export interface ChildrenI {
   children: string | JSX.Element | JSX.Element[];
+}
+
+export interface PlantListI {
+  isUpdate: boolean;
+  list: plantData[] | undefined;
+  fetchAction: AsyncThunkAction<UserRes, void, any>;
 }
