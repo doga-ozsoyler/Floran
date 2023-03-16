@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { Center, Button, Icon, useToast } from "native-base";
+import { Center, useToast } from "native-base";
 import FormController from "../components/InputFormController";
 import PasswordVisibility from "../components/PasswordVisibility";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import {
 import { signup } from "../redux/slices/authReducer";
 import { AppDispatch } from "../redux/store";
 import { validateEmail, validatePassword } from "../helpers/validation";
+import BasicButton from "../components/BasicButton";
 
 const SignupScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -88,16 +89,12 @@ const SignupScreen = () => {
         type={show ? "text" : "password"}
         InputRightElement={<PasswordVisibility show={show} setShow={setShow} />}
       />
-      <Button
-        isLoading={authLoading}
-        leftIcon={<Icon as={AntDesign} name="form" />}
-        colorScheme="green"
-        width="60%"
-        size="sm"
+      <BasicButton
+        iconLib={AntDesign}
+        iconName="form"
         onPress={handleSignup}
-      >
-        Sign up
-      </Button>
+        discription="Sign up"
+      />
     </Center>
   );
 };
