@@ -27,7 +27,9 @@ const MyPlantsScreen = () => {
 
   useEffect(() => {
     dispatch(fetchUser());
-  }, [userIsUpdate]);
+
+    return () => {};
+  }, [dispatch, userIsUpdate]);
 
   return (
     <Landing>
