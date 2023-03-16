@@ -15,7 +15,7 @@ import SigninScreen from "../screens/SigninScreen";
 import { StackParamList } from "./types";
 import SignupScreen from "../screens/SignupScreen";
 import PlantScreen from "../screens/PlantScreen";
-import PlantsYouAdd from "../screens/PlantsYouAdd";
+import PlantsYouAddScreen from "../screens/PlantsYouAddScreen";
 
 const Stack = createStackNavigator<StackParamList>();
 
@@ -51,7 +51,7 @@ const ProfileStackNavigator = () => {
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Sign in" component={SigninScreen} />
       <Stack.Screen name="Sign up" component={SignupScreen} />
-      <Stack.Screen name="Plants You Add" component={PlantsYouAdd} />
+      <Stack.Screen name="Plants You Add" component={PlantsYouAddScreen} />
     </Stack.Navigator>
   );
 };
