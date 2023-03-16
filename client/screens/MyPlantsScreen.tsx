@@ -21,7 +21,7 @@ const MyPlantsScreen = () => {
 
   const searchedDataSource = getSearchDataSource(
     search,
-    [userPlantsList?.length],
+    [userIsUpdate],
     userPlantsList ? userPlantsList : []
   );
 

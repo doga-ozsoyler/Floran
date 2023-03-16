@@ -21,7 +21,7 @@ const PlantsYouAdd = () => {
 
   const searchedDataSource = getSearchDataSource(
     search,
-    [plantsUserAdd?.length],
+    [userIsUpdate],
     plantsUserAdd ? plantsUserAdd : []
   );
 
