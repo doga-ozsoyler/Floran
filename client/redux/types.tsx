@@ -1,40 +1,39 @@
-export interface SigninRes {
-  success: boolean;
-  message: string;
-  token?: string;
-}
-export interface SignupRes {
+export interface BaseRespondI {
   success: boolean;
   message: string;
 }
 
-export interface AuthSigninProps {
+export interface SigninResI extends BaseRespondI {
+  token?: string;
+}
+
+export interface AuthSigninPropsI {
   email: string;
   password: string;
 }
 
-export interface AuthState {
+export interface AuthStateI {
   loading: boolean;
   error: any;
   token: string | null;
-  signinRes: SigninRes | null;
-  signupRes: SignupRes | null;
+  signinRes: SigninResI | null;
+  signupRes: BaseRespondI | null;
 }
 
-export interface AuthSignupProps {
+export interface AuthSignupPropsI {
   nickname: string;
   email: string;
   password: string;
 }
 
-export interface ReminderData {
+export interface ReminderDataI {
   _id: string;
   plant: string;
   repeat: number;
   time: Date;
 }
 
-export interface plantData {
+export interface plantDataI {
   _id: string;
   fertilizer: number;
   name: string;
@@ -47,41 +46,41 @@ export interface plantData {
   };
 }
 
-export interface UserRes {
+export interface UserResI extends BaseRespondI {
   user?: {
     _id: string;
     nickname: string;
     email: string;
-    plants: plantData[];
-    reminders: ReminderData[];
-    addedPlants: plantData[];
+    plants: plantDataI[];
+    reminders: ReminderDataI[];
+    addedPlants: plantDataI[];
   };
-  message: string;
-  success: boolean;
 }
 
-export interface UserState {
+export interface UserStateI {
   loading: boolean;
   error: any;
   isUpdated: boolean;
-  userRes: UserRes | null;
+  userRes: UserResI | null;
+  infoUpdateRes: BaseRespondI | null;
 }
 
-export interface allPlantRes {
-  allPlant?: plantData[];
-  message: string;
-  success: boolean;
+export interface allPlantResI extends BaseRespondI {
+  allPlant?: plantDataI[];
 }
-export interface PlantState {
+export interface PlantStateI {
   loading: boolean;
   error: any;
   isUpdated: boolean;
-  allPlantRes: allPlantRes | null;
-  plantData: PlantRes | null;
+  allPlantRes: allPlantResI | null;
+  plantData: PlantResI | null;
 }
 
-export interface PlantRes {
-  plant?: plantData;
-  message: string;
-  success: boolean;
+export interface PlantResI extends BaseRespondI {
+  plant?: plantDataI;
+}
+
+export interface UserUpdateInfoPropsI {
+  nickname: string;
+  email: string;
 }

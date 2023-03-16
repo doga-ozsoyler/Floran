@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { PlantState, allPlantRes, PlantRes } from "../types";
+import { PlantStateI, allPlantResI } from "../types";
 
 const SERVER_URL = "http://192.168.100.89:3939/api";
 
-export const fetchAllPlant = createAsyncThunk<allPlantRes>(
+export const fetchAllPlant = createAsyncThunk<allPlantResI>(
   "plant/fetchAllPlant",
   async (_, { rejectWithValue }) => {
     try {
@@ -38,7 +38,7 @@ const initialState = {
   isUpdated: false,
   allPlantRes: null,
   plantData: null,
-} as PlantState;
+} as PlantStateI;
 
 const plantSlice = createSlice({
   name: "plant",
