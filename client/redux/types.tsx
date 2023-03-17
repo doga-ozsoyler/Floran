@@ -81,6 +81,6 @@ export interface PlantResI extends BaseRespondI {
 }
 
 export interface UserUpdateInfoPropsI {
-  nickname: string;
-  email: string;
+  nickname?: string;
+  email?: string;
 }
