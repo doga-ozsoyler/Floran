@@ -3,7 +3,7 @@ import axios from "axios";
 import { UserResI, UserStateI, UserUpdateInfoPropsI } from "../types";
 import { RootState } from "../store";
 
-const SERVER_URL = "http://192.168.100.89:3939/api";
+const SERVER_URL = "http://192.168.100.86:3939/api";
 const updatedUser = createAction("user/update");
 
 export const fetchUser = createAsyncThunk<UserResI>(
@@ -77,7 +77,11 @@ export const updateUserInfo = createAsyncThunk(
       dispatch(updatedUser());
       return data;
     } catch (error: any) {
-      return rejectWithValue(error);
+      return rejectWithValue({
+        message: error.response.data.message,
+        success: error.response.data.success,
+        status: error.response.status,
+      });
     }
   }
 );
