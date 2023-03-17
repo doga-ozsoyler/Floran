@@ -90,6 +90,7 @@ const SignupScreen = () => {
         InputRightElement={<PasswordVisibility show={show} setShow={setShow} />}
       />
       <BasicButton
+        isLoading={authLoading}
         iconLib={AntDesign}
         iconName="form"
         onPress={handleSignup}

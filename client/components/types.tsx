@@ -40,6 +40,7 @@ export interface InfoHeaderTextI {
 }
 
 export interface BasicButtonI {
+  isLoading?: boolean;
   iconLib: any;
   iconName: string;
   onPress: () => void;
