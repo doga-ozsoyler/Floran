@@ -27,7 +27,7 @@ const ProfileScreen = () => {
         <BasicButton
           iconLib={AntDesign}
           iconName="form"
-          onPress={() => console.log("update info")}
+          onPress={() => navigation.navigate("Update Info")}
           discription="Update Info"
         />
         <BasicButton

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Center, Button, Icon, Text } from "native-base";
+import { Center, Button } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 import { signin } from "../redux/slices/authReducer";
 import { AppDispatch } from "../redux/store";
@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { generalScreenProp } from "../navigation/types";
 import FormController from "../components/InputFormController";
 import PasswordVisibility from "../components/PasswordVisibility";
+import BasicButton from "../components/BasicButton";
 
 const SigninScreen = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -55,16 +56,12 @@ const SigninScreen = () => {
         type={show ? "text" : "password"}
         InputRightElement={<PasswordVisibility show={show} setShow={setShow} />}
       />
-      <Button
-        isLoading={authLoading}
-        leftIcon={<Icon as={Ionicons} name="enter-outline" />}
-        colorScheme="green"
-        width="60%"
-        size="sm"
+      <BasicButton
+        iconLib={Ionicons}
+        iconName="enter-outline"
         onPress={handleSignin}
-      >
-        Sign in
-      </Button>
+        discription="Sign in"
+      />
       <Button
         variant="link"
         onPress={() => {

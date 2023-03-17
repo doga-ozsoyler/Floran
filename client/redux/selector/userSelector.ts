@@ -23,3 +23,7 @@ export const selectUserPlants = (state: RootState) => {
 export const selectPlantsUserAdd = (state: RootState) => {
   return state?.user?.userRes?.user?.addedPlants;
 };
+
+export const selectInfoUpdateRes = (state: RootState) => {
+  return state?.user?.infoUpdateRes;
+};

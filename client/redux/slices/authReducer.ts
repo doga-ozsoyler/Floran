@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { AuthState, AuthSigninProps, AuthSignupProps } from "../types";
+import { AuthStateI, AuthSigninPropsI, AuthSignupPropsI } from "../types";
 
-const SERVER_URL = "http://192.168.100.89:3939/api";
+const SERVER_URL = "http://192.168.100.86:3939/api";
 
 export const signin = createAsyncThunk(
   "auth/signin",
-  async (signinData: AuthSigninProps, { rejectWithValue }) => {
+  async (signinData: AuthSigninPropsI, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/signin`,
@@ -28,7 +28,7 @@ export const signin = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   "auth/signup",
-  async (signupData: AuthSignupProps, { rejectWithValue }) => {
+  async (signupData: AuthSignupPropsI, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/signup`,
@@ -52,7 +52,7 @@ const initialState = {
   token: null,
   signinRes: null,
   signupRes: null,
-} as AuthState;
+} as AuthStateI;
 
 const authSlice = createSlice({
   name: "auth",

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { plantData } from "../redux/types";
+import { plantDataI } from "../redux/types";
 
 const getSearchDataSource = (
   search: string,
   isUpdate: any[],
-  allPlantList: plantData[]
+  allPlantList: plantDataI[]
 ) => {
   const [searchedDataSource, setSearchedDataSource] =
-    useState<plantData[]>(allPlantList);
+    useState<plantDataI[]>(allPlantList);
 
   useEffect(() => {
     const filteredPlants = allPlantList?.filter(function (item) {

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { Center, Button, Icon, useToast } from "native-base";
+import { Center } from "native-base";
 import FormController from "../components/InputFormController";
 import PasswordVisibility from "../components/PasswordVisibility";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,10 +12,11 @@ import {
 import { signup } from "../redux/slices/authReducer";
 import { AppDispatch } from "../redux/store";
 import { validateEmail, validatePassword } from "../helpers/validation";
+import BasicButton from "../components/BasicButton";
+import showToast from "../hooks/showToast";
 
 const SignupScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const toast = useToast();
   const [show, setShow] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -44,14 +45,7 @@ const SignupScreen = () => {
     setPassword(text);
   };
 
-  useEffect(() => {
-    if (!authError && signupRes) {
-      toast.show({
-        description: signupRes.message,
-        duration: 3000,
-      });
-    }
-  }, [authError, signupRes]);
+  showToast(signupRes, authError);
 
   return (
     <Center flex={1}>
@@ -88,16 +82,13 @@ const SignupScreen = () => {
         type={show ? "text" : "password"}
         InputRightElement={<PasswordVisibility show={show} setShow={setShow} />}
       />
-      <Button
+      <BasicButton
         isLoading={authLoading}
-        leftIcon={<Icon as={AntDesign} name="form" />}
-        colorScheme="green"
-        width="60%"
-        size="sm"
+        iconLib={AntDesign}
+        iconName="form"
         onPress={handleSignup}
-      >
-        Sign up
-      </Button>
+        discription="Sign up"
+      />
     </Center>
   );
 };

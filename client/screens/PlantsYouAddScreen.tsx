@@ -8,7 +8,7 @@ import {
 import { fetchUser } from "../redux/slices/userReducer";
 import PlantList from "../components/PlantList";
 
-const PlantsYouAdd = () => {
+const PlantsYouAddScreen = () => {
   const plantsUserAdd = useSelector(selectPlantsUserAdd);
   const userIsUpdate = useSelector(selectUserUpdate);
 
@@ -23,4 +23,4 @@ const PlantsYouAdd = () => {
   );
 };
 
-export default PlantsYouAdd;
+export default PlantsYouAddScreen;
