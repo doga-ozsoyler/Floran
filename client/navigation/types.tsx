@@ -13,6 +13,7 @@ export type StackParamList = {
   Plant: PlantScreenI;
   "Plants You Add": undefined;
   "Update Info": undefined;
+  "Add Plant": undefined;
 };
 
 export type TabParamList = {
