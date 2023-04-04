@@ -1,5 +1,9 @@
 const express = require("express");
 import dbConnect from "./config/dbConnect";
+import authRoutes from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
+import plantRoutes from "./routes/plantRoutes";
+import reminderRoutes from "./routes/reminderRoutes";
 const cors = require("cors");
 require("dotenv").config();
 
@@ -14,8 +18,18 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-dbConnect();
+if (process.env.NODE_ENV !== "TEST") {
+  dbConnect();
+}
 
-const PORT = process.env.PORT || 3000;
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/plant", plantRoutes);
+app.use("/api/reminder", reminderRoutes);
 
-app.listen(PORT, console.log(`Server running at PORT ${PORT}`));
+if (process.env.NODE_ENV !== "TEST") {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, console.log(`Server running at PORT ${PORT}`));
+}
+
+export default app;
